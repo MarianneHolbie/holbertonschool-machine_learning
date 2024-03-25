@@ -47,6 +47,7 @@ def likelihood(x, n, P):
 
     return proba
 
+
 def intersection(x, n, P, Pr):
     """
         function that calculates the intersection of obtaining this data with
@@ -85,11 +86,7 @@ def intersection(x, n, P, Pr):
     # calculate likelihood
     val_likelihood = likelihood(x, n, P)
 
-    # calculate marginal
-    marginal = np.sum(val_likelihood)
-
     # calculate intersection
-    inter = val_likelihood * Pr / marginal
+    inter = val_likelihood * Pr
 
     return inter
-
