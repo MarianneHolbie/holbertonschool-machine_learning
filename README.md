@@ -27,6 +27,10 @@ Concept of determinant, minor, cofactor, adjugate, eigenvalues, eigenvectors, de
 
 Understand the concept of multivariate probability, of joint/multivariate distribution, covariance, correlation coefficient, covariance matrix, multivariate Gaussian distribution.
 
+### [Bayesian Probability](math/bayesian_prob)
+
+Bayesian probability is an interpretation of the concept of probability, in which, instead of frequency or propensity of some phenomenon, probability is interpreted as reasonable expectation representing a state of knowledge or as quantification of a personal belief.
+
 ## [Supervised Learning](supervised_learning)
 
 ### [Classification](supervised_learning/classification)
