@@ -80,7 +80,7 @@ def intersection(x, n, P, Pr):
         if not np.all((Pr >= 0) & (Pr <= 1)):
             raise ValueError("All values in Pr must be in the range [0, 1]")
 
-    if np.sum(Pr) != 1:
+    if np.abs(np.sum(Pr) - 1) > 1e-10:
         raise ValueError("Pr must sum to 1")
 
     # calculate likelihood
