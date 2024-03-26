@@ -34,9 +34,9 @@ def pca(X, var=0.95):
     variance_kept = np.cumsum(eigen_val[sorted_index]) / np.sum(eigen_val)
 
     # components to be conserved
-    nb_comp = np.argmax(variance_kept >= var) + 1
+    nb_comp = np.argmax(variance_kept >= var) + 2
 
     # select corresponding vector = matrix W
     W = sorted_eigen_vector[:, :nb_comp]
 
-    return W
+    return np.real(W)
