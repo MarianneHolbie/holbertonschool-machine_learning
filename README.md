@@ -81,3 +81,9 @@ Object detection with YOLO algorithm
 ### [neural_style_transfer](supervised_learning/neural_style_transfer)
 
 Neural Style Transfer with Tensorflow and Keras
+
+## [Unsupervised Learning](unsupervised_learning)
+
+### [dimensionality_reduction](unsupervised_learning/dimensionality_reduction)
+
+Introduction to dimensionality reduction (PCA, t-SNE, P and Q affinities, ...)
