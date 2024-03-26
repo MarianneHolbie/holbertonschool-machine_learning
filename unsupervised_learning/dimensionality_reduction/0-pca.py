@@ -20,23 +20,16 @@ def pca(X, var=0.95):
         that maintains var fraction of X‘s original variance
     """
 
-    # covariance matrix
-    cov_mat = np.cov(X, rowvar=False)
+    # Calculate the SVD of input data
+    U, S, V = np.linalg.svd(X, full_matrices=False)
 
-    # eigenvalue, eigenvector
-    eigen_val, eigen_vector = np.linalg.eig(cov_mat)
+    # Calculate the cumulative sum of the variance ratio
+    var_ratio = np.cumsum(S**2) / np.sum(S**2)
 
-    # sort eigenvalue, eigenvector
-    sorted_index = np.argsort(eigen_val)[::-1]
-    sorted_eigen_vector = eigen_vector[:, sorted_index]
+    # Determine the number of components to keep
+    nb_comp = np.argmax(var_ratio >= var) + 1
 
-    # fraction of variance
-    variance_kept = np.cumsum(eigen_val[sorted_index]) / np.sum(eigen_val)
+    # select first nb_comp
+    W = V[:nb_comp + 1].T
 
-    # components to be conserved
-    nb_comp = np.argmax(variance_kept >= var) + 2
-
-    # select corresponding vector = matrix W
-    W = sorted_eigen_vector[:, :nb_comp]
-
-    return np.real(W)
+    return W
