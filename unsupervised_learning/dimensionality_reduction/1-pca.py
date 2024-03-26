@@ -18,6 +18,9 @@ def pca(X, ndim):
         containing the transformed version of X
     """
 
+    # normalize
+    X = X - np.mean(X, axis=0)
+
     # Calculate the SVD of input data
     U, S, V = np.linalg.svd(X, full_matrices=False)
 
