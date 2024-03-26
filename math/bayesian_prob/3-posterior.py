@@ -133,6 +133,7 @@ def marginal(x, n, P, Pr):
 
     return marginal_prob
 
+
 def posterior(x, n, P, Pr):
     """
         function that calculates the marginal probability of obtaining the data
