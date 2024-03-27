@@ -21,7 +21,7 @@ def HP(Di, beta):
     """
     # Calcul Pi affinities, don't divide by 2beta^2 because Di: distance one to
     # other points
-    exp_val = np.exp(-Di / beta)
+    exp_val = np.exp(-Di * beta)
     sum_exp_val = np.sum(exp_val)
     Pi = exp_val / sum_exp_val
 
