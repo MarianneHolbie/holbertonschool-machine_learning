@@ -25,11 +25,7 @@ def HP(Di, beta):
     sum_exp_val = np.sum(exp_val)
     Pi = exp_val / sum_exp_val
 
-    # remove 0 from Pi to avoid log(0)
-    # replace 0 by the smallest possible value
-    new_Pi = np.maximum(Pi, np.finfo(float).eps)
-
     # calcul of Shannon entropy
-    Hi = - np.sum(new_Pi * np.log2(new_Pi))
+    Hi = - np.sum(Pi * np.log2(Pi))
 
-    return Hi, new_Pi
+    return Hi, Pi
