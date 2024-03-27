@@ -14,6 +14,16 @@ def specificity(confusion):
         :param confusion: ndarray, shape(classes,classes) confusion matrix
 
         :return: ndarray, shape(classes,), specificity of each class
+
+        Correction:
+        actual = np.sum(confusion, axis=1)
+        total = np.sum(confusion)
+        actual_no = total - actual
+        predicted = np.sum(confusion, axis=0)
+        diagonal = np.diagonal(confusion)
+        FP = predicted - diagonal
+
+        return 1 - FP / actual_no
     """
     # number of classes
     classes = confusion.shape[0]
