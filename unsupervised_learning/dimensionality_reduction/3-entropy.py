@@ -32,4 +32,4 @@ def HP(Di, beta):
     # calcul of Shannon entropy
     Hi = - np.sum(new_Pi * np.log2(new_Pi))
 
-    return Hi, Pi
+    return Hi, new_Pi
