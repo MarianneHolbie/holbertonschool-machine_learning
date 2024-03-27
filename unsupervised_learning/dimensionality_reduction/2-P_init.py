@@ -7,8 +7,8 @@ import numpy as np
 
 def P_init(X, perplexity):
     """
-        function that initializes all variables required to calculate the P affinities
-        in t-SNE
+        function that initializes all variables required to calculate
+        the P affinities in t-SNE
 
     :param X: ndarray, shape(n,d), dataset to be transformed by t-SNE
                 n: number of data points
