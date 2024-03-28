@@ -28,6 +28,6 @@ def Q_affinities(Y):
     np.fill_diagonal(num, 0)
 
     # calculate Q affinities
-    Q = num / np.sum(num, axis=0)
+    Q = num / np.sum(num)
 
     return Q, num
