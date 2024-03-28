@@ -19,16 +19,15 @@ def Q_affinities(Y):
         num: ndarray, shape(n,n) containing numerator of the Q affinities
     """
 
-    n, ndim = Y.shape
-    Q = np.zeros((n, n))
-
     # calcul of Euclidean distance between every pair of points
     Yi = np.sum((Y[None, :] - Y[:, None]) ** 2, 2)
+    np.fill_diagonal(Yi, 0)
 
     # calculate numerator of Q affinities
     num = 1 / (1 + Yi)
+    np.fill_diagonal(num, 0)
 
     # calculate Q affinities
-    Q = num / np.sum(num)
+    Q = num / np.sum(num, axis=0)
 
     return Q, num
