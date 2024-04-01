@@ -24,8 +24,8 @@ def initialize(X, k):
 
     n, d = X.shape
 
-    low = np.argmin(X)
-    high = np.argmax(X)
+    low = np.min(X, axis=0)
+    high = np.max(X, axis=0)
 
     centroids = np.random.uniform(low=low, high=high, size=(k, d))
 
