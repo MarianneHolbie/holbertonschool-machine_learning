@@ -19,7 +19,10 @@ def initialize(X, k):
             clusert of None on failure
     """
 
-    if not isinstance(k, int) or k < 0:
+    if not isinstance(k, int) or k <= 0:
+        return None
+
+    if not isinstance(X, np.ndarray):
         return None
 
     n, d = X.shape
