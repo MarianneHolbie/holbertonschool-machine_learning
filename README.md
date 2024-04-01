@@ -87,3 +87,7 @@ Neural Style Transfer with Tensorflow and Keras
 ### [dimensionality_reduction](unsupervised_learning/dimensionality_reduction)
 
 Introduction to dimensionality reduction (PCA, t-SNE, P and Q affinities, ...)
+
+### [clustering](unsupervised_learning/clustering)
+
+Introduction to clustering (K-means, Hierarchical clustering, Gaussian Mixture Model, Affinity Propagation, Agglomerative clustering, ...)
