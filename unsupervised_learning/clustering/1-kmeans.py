@@ -46,9 +46,13 @@ def kmeans(X, k, iterations=1000):
         clss = np.argmin(distances, axis=1)
 
         # Update centroids
-        new_centroids = np.array([X[clss == i].mean(axis=0)
-                                  if np.sum(clss == i) > 0
-                                  else X[np.random.choice(n)] for i in range(k)])
+        new_centroids = np.empty((k, d), dtype=X.dtype)
+        for j in range(k):
+            mask = (clss == j)
+            if np.any(mask):
+                new_centroids[j] = np.mean(X[mask], axis=0)
+            else:
+                new_centroids[j] = X[np.random.choice(n)]
 
         # Check for convergence
         if np.allclose(centroids, new_centroids):
