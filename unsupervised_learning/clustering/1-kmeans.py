@@ -41,7 +41,7 @@ def kmeans(X, k, iterations=1000):
 
     # K-means algo
     for i in range(iterations):
-        # distance between datapoints and centroids
+        # distances between datapoints and centroids
         distances = np.linalg.norm(X[:, None] - centroids, axis=2)
         clss = np.argmin(distances, axis=1)
 
