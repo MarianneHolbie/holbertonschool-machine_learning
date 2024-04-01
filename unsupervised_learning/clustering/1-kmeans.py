@@ -54,7 +54,7 @@ def kmeans(X, k, iterations=1000):
             else:
                 new_centroids[j] = X[np.random.choice(n)]
 
-        # Check for convergence
+        # Check convergence
         if np.allclose(centroids, new_centroids):
             break
 
