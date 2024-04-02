@@ -14,6 +14,13 @@ def f1_score(confusion):
         :param confusion: ndarray, shape(classes, classes)
 
         :return: ndarray, shape(classes,) F1 score of each class
+
+        Correction:
+        r = sensitivity(confusion)
+        p = precision(confusion)
+
+        return 2 * p * r / (p + r)
+
     """
     # number of classes
     classes = confusion.shape[0]
