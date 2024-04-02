@@ -39,7 +39,7 @@ def optimum_k(X, kmin=1, kmax=None, iterations=1000):
     var = []
     results = []
 
-    # for minimal value
+    # minimal value
     centroids, clss = kmeans(X, k=kmin, iterations=iterations)
     minimal_var = variance(X, centroids)
     results.append((centroids, clss))
