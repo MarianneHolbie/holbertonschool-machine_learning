@@ -15,6 +15,11 @@ def variance(X, C):
     :return: var or None if failure
         var: total variance
     """
+    if not isinstance(X, np.ndarray):
+        return None
+
+    if not isinstance(C, np.ndarray):
+        return None
 
     if X.ndim != 2 or C.ndim != 2:
         return None
