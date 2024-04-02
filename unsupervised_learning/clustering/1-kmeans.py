@@ -50,7 +50,7 @@ def kmeans(X, k, iterations=1000):
         for j in range(k):
             mask = (clss == j)
             if np.any(mask):
-                new_centroids[j] = np.mean(X[mask], axis=0)
+                new_centroids[j] = np.mean(X[mask])
             else:
                 new_centroids[j] = X[np.random.choice(n)]
 
