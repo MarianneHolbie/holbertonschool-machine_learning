@@ -38,6 +38,7 @@ def kmeans(X, k, iterations=1000):
 
     # first define centroid with multivariate uniform distribution
     centroids = np.random.uniform(low=low, high=high, size=(k, d))
+    new_centroids = np.empty((k, d), dtype=X.dtype)
 
     # K-means algo
     for i in range(iterations):
@@ -46,18 +47,18 @@ def kmeans(X, k, iterations=1000):
         clss = np.argmin(distances, axis=1)
 
         # Update centroids
-        new_centroids = np.empty((k, d), dtype=X.dtype)
+
         for j in range(k):
             mask = (clss == j)
             if np.any(mask):
-                new_centroids[j] = np.mean(X[mask])
+                new_centroids[j] = np.mean(X[mask], axis=0)
             else:
-                new_centroids[j] = X[np.random.choice(n)]
+                new_centroids[j] = np.random.uniform(low=low, high=high, size=(1, d))
 
         # Check convergence
         if np.allclose(centroids, new_centroids):
             break
 
-        centroids = new_centroids
+        centroids = new_centroids.copy()
 
     return centroids, clss
