@@ -26,7 +26,7 @@ def initialize(X, k):
     if not isinstance(k, int) or k <= 0:
         return None, None, None
 
-    n,d = X.shape
+    n, d = X.shape
 
     # init prior: equal prior prob
     pi = np.full((k,), fill_value=1/k)
