@@ -43,17 +43,18 @@ def kmeans(X, k, iterations=1000):
     # K-means algo
     for i in range(iterations):
         # distances between datapoints and centroids
-        distances = np.linalg.norm(X[:, None] - centroids, axis=2)
-        clss = np.argmin(distances, axis=1)
+        distances = np.sum(np.sqrt((X - centroids[:, np.newaxis]) ** 2),
+                           axis=-1)
+        clss = np.argmin(distances, axis=0)
 
         # Update centroids
-
         for j in range(k):
             mask = (clss == j)
             if np.any(mask):
-                new_centroids[j] = np.mean(X[mask], axis=0)
+                new_centroids[j] = X[mask].mean(axis=0)
             else:
-                new_centroids[j] = np.random.uniform(low=low, high=high, size=(1, d))
+                new_centroids[j] = (
+                    np.random.uniform(low=low, high=high, size=(1, d)))
 
         # Check convergence
         if np.allclose(centroids, new_centroids):
