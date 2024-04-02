@@ -43,8 +43,8 @@ def kmeans(X, k, iterations=1000):
     # K-means algo
     for i in range(iterations):
         # distances between datapoints and centroids
-        distances = np.sum(np.sqrt((X - centroids[:, np.newaxis]) ** 2),
-                           axis=-1)
+        distances = np.sqrt(np.sum((X - centroids[:, np.newaxis]) ** 2),
+                            axis=-1)
         clss = np.argmin(distances, axis=0)
 
         # Update centroids
