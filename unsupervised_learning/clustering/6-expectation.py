@@ -40,7 +40,7 @@ def expectation(X, pi, m, S):
     g = np.zeros((k, n))
     l = 0.0
 
-    # calculate posterior proba for each cluster
+    # calculate posterior proba (each cluster)
     for i in range(k):
         P = pdf(X, m[i], S[i])
         g[i] = pi[i] * P
