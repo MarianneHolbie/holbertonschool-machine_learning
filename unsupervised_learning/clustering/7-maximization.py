@@ -29,6 +29,13 @@ def maximization(X, g):
         return None, None, None
     k, _ = g.shape
 
+    # sum posterior proba for each point
+    sum_gi = np.sum(g, axis=0)
+    val_n = np.sum(sum_gi)
+    # test if sum posterior proba != total number of data
+    if val_n != n:
+        return None, None, None
+
     pi = np.zeros((k,))
     m = np.zeros((k, d))
     S = np.zeros((k, d, d))
