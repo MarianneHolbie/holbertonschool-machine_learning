@@ -18,7 +18,7 @@ def expectation(X, pi, m, S):
     :return: g, l or None, None on failure
             g: ndarray, shape(k,n) posterior proba for each data
              point in each cluster
-             l: total log likelihood
+             likelihood: total log likelihood
     """
     if not isinstance(X, np.ndarray) or len(X.shape) != 2:
         return None, None
@@ -32,13 +32,15 @@ def expectation(X, pi, m, S):
         return None, None
     if S.shape[1] != S.shape[2]:
         return None, None
+    if pi.shape[0] != m.shape[0] or pi.shape[0] != S.shape[0]:
+        return None, None
 
     n, d = X.shape
     k = pi.shape[0]
 
     # initialize g and l
     g = np.zeros((k, n))
-    l = 0.0
+    likelihood = 0.0
 
     # calculate posterior proba (each cluster)
     for i in range(k):
@@ -49,6 +51,6 @@ def expectation(X, pi, m, S):
     g = g / marginal
 
     # likelihood
-    l += np.sum(np.log(marginal))
+    likelihood += np.sum(np.log(marginal))
 
-    return g, l
+    return g, likelihood
