@@ -16,7 +16,7 @@ def expectation(X, pi, m, S):
     :param S: ndarray, shape(k,d,d) covariance matrix for each cluster
 
     :return: g, l or None, None on failure
-            g: ndarray, shape(k,n) posterior proba for each data
+             g: ndarray, shape(k,n) posterior proba for each data
              point in each cluster
              likelihood: total log likelihood
     """
