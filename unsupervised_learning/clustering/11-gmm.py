@@ -17,7 +17,8 @@ def gmm(X, k):
         m: ndarray, shape(k,d) centroids means
         S: ndarray, shape(k, d, d) covariance matrices
         clss: ndarray, shape(n,)  cluster indices for each data point
-        bic: ndarray, shape(kmax - kmin + 1)  BIC value for each cluster size tested
+        bic: ndarray, shape(kmax - kmin + 1)  BIC value
+            for each cluster size tested
     """
     gaus_mixt = sklearn.mixture.GaussianMixture(n_components=k).fit(X)
 
