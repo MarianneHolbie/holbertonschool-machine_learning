@@ -58,10 +58,10 @@ def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
         if diff <= tol:
             break
 
+        likelihood_prev = likelihood
+
         # maximization
         pi, m, S = maximization(X, g)
-
-        likelihood_prev = likelihood
 
     g, likelihood = expectation(X, pi, m, S)
     if verbose:
