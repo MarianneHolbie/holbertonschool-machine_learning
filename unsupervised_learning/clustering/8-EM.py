@@ -44,7 +44,7 @@ def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
 
     likelihood_prev = 0
 
-    for i in range(iterations + 1):
+    for i in range(iterations):
         # expectation
         g, likelihood = expectation(X, pi, m, S)
 
@@ -64,7 +64,7 @@ def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
         likelihood_prev = likelihood
 
     g, likelihood = expectation(X, pi, m, S)
-    if verbose and i % 10 != 0:
+    if verbose:
         print("Log Likelihood after {} iterations: {}"
               .format(i, likelihood.round(5)))
 
