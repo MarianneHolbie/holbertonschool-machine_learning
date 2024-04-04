@@ -29,7 +29,7 @@ def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
         return None, None, None, None, None
     if not isinstance(k, int) or k <= 0:
         return None, None, None, None, None
-    if not isinstance(iterations, int) or iterations <=0:
+    if not isinstance(iterations, int) or iterations <= 0:
         return None, None, None, None, None
     if not isinstance(tol, float) or tol < 0:
         return None, None, None, None, None
@@ -47,23 +47,25 @@ def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
         # expectation
         g, likelihood = expectation(X, pi, m, S)
 
-        # maximization
-        pi, m, S = maximization(X, g)
-
         # verbose
         if verbose:
             if i == 0 or i % 10 == 0:
-                print("Log Likelihood after {} iterations: {}".format(i, likelihood.round(5)))
+                print("Log Likelihood after {} iterations: {}"
+                      .format(i, likelihood.round(5)))
 
         diff = np.abs(likelihood - likelihood_prev)
 
         if diff <= tol:
             break
 
+        # maximization
+        pi, m, S = maximization(X, g)
+
         likelihood_prev = likelihood
 
     g, likelihood = expectation(X, pi, m, S)
     if verbose:
-        print("Log Likelihood after {} iterations: {}".format(i, likelihood.round(5)))
+        print("Log Likelihood after {} iterations: {}"
+              .format(i, likelihood.round(5)))
 
     return pi, m, S, g, likelihood
