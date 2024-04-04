@@ -24,7 +24,8 @@ def BIC(X, kmin=1, kmax=None, iterations=1000, tol=1e-5, verbose=False):
             pi: ndarray, shape(k,) cluster priors for best k
             m: ndarray, shape(k,d) centroid means for best k
             S: ndarray, shape(K,d,d) cov matrices for best k
-        l: ndarray, shape(kmax-kmin+1) log likelihood for each cluster size tested
+        l: ndarray, shape(kmax-kmin+1) log likelihood
+            for each cluster size tested
         b: ndarray, shape(kmax-kmin+1) BIC value for each cluster size tested
             Use BIC=p*ln(n)-2*l
             p: number parameters required for the model
@@ -32,16 +33,18 @@ def BIC(X, kmin=1, kmax=None, iterations=1000, tol=1e-5, verbose=False):
             l: log likelihood of the model
     """
     if not isinstance(X, np.ndarray) or len(X.shape) != 2:
-        return None, None, None, None, None
+        return None, None, None, None
     if not isinstance(iterations, int) or iterations <= 0:
-        return None, None, None, None, None
+        return None, None, None, None
     if not isinstance(tol, float) or tol < 0:
-        return None, None, None, None, None
+        return None, None, None, None
     if not isinstance(verbose, bool):
-        return None, None, None, None, None
+        return None, None, None, None
     if not isinstance(kmin, int) and kmin < 1:
-        return None, None, None, None, None
+        return None, None, None, None
     if kmax is not None and (not isinstance(kmax, int) or kmax < kmin):
+        return None, None, None, None
+    if kmax >= kmin:
         return None, None, None, None
 
     n, d = X.shape
