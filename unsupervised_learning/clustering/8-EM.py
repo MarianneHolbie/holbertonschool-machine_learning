@@ -58,10 +58,12 @@ def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
         diff = np.abs(likelihood - likelihood_prev)
 
         if diff <= tol:
-            if verbose:
-                print("Log Likelihood after {} iterations: {}".format(i, likelihood.round(5)))
             break
 
         likelihood_prev = likelihood
+
+    g, likelihood = expectation(X, pi, m, S)
+    if verbose:
+        print("Log Likelihood after {} iterations: {}".format(i, likelihood.round(5)))
 
     return pi, m, S, g, likelihood
