@@ -64,8 +64,6 @@ def BIC(X, kmin=1, kmax=None, iterations=1000, tol=1e-5, verbose=False):
     for k in range(kmin, kmax + 1):
         pi, m, S, g, likelihood \
             = expectation_maximization(X, k, iterations, tol, verbose)
-        if pi is None or m is None or S is None:
-            return None, None, None, None
 
         lh[k - kmin] = likelihood
 
