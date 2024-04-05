@@ -68,7 +68,7 @@ def BIC(X, kmin=1, kmax=None, iterations=1000, tol=1e-5, verbose=False):
         lh[k - kmin] = likelihood
 
         # number of param (-1 correction)
-        p = k * (d + 1) + k * d * (d + 1) / 2 - 1
+        p = k * (d + 1) + k * d * (d + 1) // 2 - 1
         # BIC value
         b[k - kmin] = p * np.log(n) - 2 * likelihood
 
