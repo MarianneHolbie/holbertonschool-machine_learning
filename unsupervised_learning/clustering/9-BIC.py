@@ -57,24 +57,23 @@ def BIC(X, kmin=1, kmax=None, iterations=1000, tol=1e-5, verbose=False):
     b = np.zeros(kmax - kmin + 1)
 
     best_k = None
-    best_result = None
+    result = []
     best_bic = float('inf')
 
     # test all value between kmin and kmax
     for k in range(kmin, kmax + 1):
         pi, m, S, g, likelihood \
             = expectation_maximization(X, k, iterations, tol, verbose)
-
+        result.append((pi, m, S))
         lh[k - kmin] = likelihood
 
         # number of param (-1 correction)
         p = k * (d + 1) + k * d * (d + 1) // 2 - 1
+
         # BIC value
         b[k - kmin] = p * np.log(n) - 2 * likelihood
 
-        if b[k - kmin] < best_bic:
-            best_bic = b[k - kmin]
-            best_k = k
-            best_result = (pi, m, S)
-
+    amin = np.argmin(b)
+    best_k = amin + kmin
+    best_result = result[amin]
     return best_k, best_result, lh, b
