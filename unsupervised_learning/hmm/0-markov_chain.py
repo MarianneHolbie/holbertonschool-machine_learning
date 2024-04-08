@@ -20,7 +20,7 @@ def markov_chain(P, s, t=1):
             after t iterations, or None on failure
     """
 
-    current_state = s[0]
+    current_state = s
 
     for i in range(t):
         next_state = np.matmul(current_state, P)
