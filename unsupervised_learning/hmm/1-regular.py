@@ -50,5 +50,6 @@ def regular(P):
 
     # resolve
     steady_state = np.linalg.solve(QTQ, bQT)
+    steady_state = np.array([np.round(steady_state, 8)])
 
-    return np.array([np.round(steady_state, 8)]).tolist()
+    return steady_state
