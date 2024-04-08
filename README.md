@@ -91,3 +91,7 @@ Introduction to dimensionality reduction (PCA, t-SNE, P and Q affinities, ...)
 ### [clustering](unsupervised_learning/clustering)
 
 Introduction to clustering (K-means, Hierarchical clustering, Gaussian Mixture Model, Affinity Propagation, Agglomerative clustering, ...)
+
+### [hmm](unsupervised_learning/hmm)
+
+Hidden Markov Models

@@ -10,3 +10,7 @@ Dimensionality reduction is the process of reducing the number of random variabl
 ## [Clustering](./clustering)
 
 Clustering is a type of unsupervised learning that groups data points together based on their similarities. The goal of clustering is to identify patterns in the data and group similar data points together. Clustering is used in a variety of applications, such as customer segmentation, image segmentation, and anomaly detection.
+
+## [Hidden Markov Models](./hmm)
+
+Hidden Markov Models (HMMs) are a class of probabilistic graphical model that are used to model sequences of data. They are used in a wide range of applications, including speech recognition, bioinformatics, and finance.
