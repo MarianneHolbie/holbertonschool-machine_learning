@@ -30,10 +30,10 @@ def regular(P):
     n = P.shape[0]
 
     # identity matrix
-    I = np.identity(n)
+    Id_P = np.identity(n)
 
     # P - I
-    PI = P - I
+    PI = P - Id_P
 
     # vector
     ones = np.ones(n)
@@ -51,4 +51,4 @@ def regular(P):
     # resolve
     steady_state = np.linalg.solve(QTQ, bQT)
 
-    return np.array([steady_state]).tolist()
+    return np.array([np.round(steady_state, 8)]).tolist()
