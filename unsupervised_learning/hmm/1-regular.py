@@ -22,34 +22,23 @@ def regular(P):
         return None
     if len(P.shape) != 2:
         return None
-    sums_P = np.sum(P, axis=1)
-    for e in sums_P:
-        if not np.isclose(e, 1):
-            return None
+    # Check if the sum of each row is 1
+    if not np.allclose(P.sum(axis=1), 1):
+        return None
 
     n = P.shape[0]
 
-    # identity matrix
-    Id_P = np.identity(n)
+    # Create a matrix for the system of linear equations
+    A = P.T - np.eye(n)
+    b = np.ones(n)
 
-    # P - I
-    PI = P - Id_P
-
-    # vector
-    ones = np.ones(n)
-
-    # construct augmented matrix (concatened PI + ones) shape(n, n+1)
-    q = np.c_[PI, ones]
-    # q * q.T : shape(n,n)
-    QTQ = np.dot(q, q.T)
-    # q.T * qx = b
-    bQT = np.ones(n)
-
-    if np.linalg.det(PI) == 0:
+    # Solve the system of linear equations (Ax = b)
+    try:
+        x = np.linalg.solve(A, b)
+    except np.linalg.LinAlgError:
         return None
 
-    # resolve
-    steady_state = np.linalg.solve(QTQ, bQT)
-    steady_state = np.array([np.round(steady_state, 8)])
+    # Normalize the solution vector to ensure the sum is 1
+    x = x / x.sum()
 
-    return steady_state
+    return x.reshape(1, n)
