@@ -54,10 +54,9 @@ def forward(Observation, Emission, Transition, Initial):
             if obs_idx >= M:
                 alpha[j, t] = 0  # Handle out-of-bounds observation index
             else:
-                alpha[j, t] = np.dot(alpha[:, t - 1], Transition[:, j]) * Emission[j, obs_idx]
+                alpha[j, t] = np.dot(alpha[:, t - 1],
+                                     Transition[:, j]) * Emission[j, obs_idx]
 
     P = np.sum(alpha[:, T - 1])
 
     return P, alpha
-
-
