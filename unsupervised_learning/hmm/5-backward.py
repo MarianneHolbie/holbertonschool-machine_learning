@@ -44,32 +44,17 @@ def backward(Observation, Emission, Transition, Initial):
             or Initial.shape[0] != N or Initial.shape[1] != 1):
         return None, None
 
-    # Forward algo
-    alpha = np.zeros((N, T))
-    # First observation using initial state
-    alpha[:, 0] = Initial.reshape(-1) * Emission[:, Observation[0]]
-
-    # For other observations
-    for t in range(1, T):
-        # for each hidden state
-        for j in range(N):
-            obs_idx = Observation[t]
-            if obs_idx >= M:
-                alpha[j, t] = 0  # Handle out-of-bounds observation index
-            else:
-                alpha[j, t] = np.dot(alpha[:, t - 1],
-                                     Transition[:, j]) * Emission[j, obs_idx]
-
     # init
     backward_mat = np.zeros((N, T))
     backward_mat[:, T - 1] = 1
 
     for t in reversed(range(T - 1)):
         for i in range(N):
-            backward_mat[i, t] = np.sum(Transition[:, i]
-                                        * Emission[:, Observation[t]]
+            backward_mat[i, t] = np.sum(Transition[i, :]
+                                        * Emission[:, Observation[t + 1]]
                                         * backward_mat[:, t + 1])
 
-    P = np.sum(alpha[:, T - 1])
+    P = np.sum(Initial[:, 0] * Emission[:, Observation[0]]
+               * backward_mat[:, 0])
 
     return P, backward_mat
