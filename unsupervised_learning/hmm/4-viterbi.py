@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
     HMM : Hidden Markov Models
-        The Forward Algorithm
+        The Viterbi Algorithm
 """
 import numpy as np
 
