@@ -25,7 +25,8 @@ def viterbi(Observation, Emission, Transition, Initial):
         particular hidden state
 
     :return: path, P or None, None on failure
-        path: list of length T containing the most likely sequence of hidden states
+        path: list of length T containing the most likely sequence
+         of hidden states
         P: proba of obtaining the path sequence
     """
     if not isinstance(Observation, np.ndarray) or len(Observation.shape) != 1:
@@ -52,8 +53,11 @@ def viterbi(Observation, Emission, Transition, Initial):
     # recurrent algo
     for t in range(1, T):
         for j in range(N):
-            viterbi_mat[t, j] = np.max(viterbi_mat[t - 1, :] * Transition[:, j]) * Emission[j, Observation[t]]
-            backtrack_mat[t, j] = np.argmax(viterbi_mat[t-1, :] * Transition[:, j])
+            viterbi_mat[t, j] = (
+                    np.max(viterbi_mat[t - 1, :] * Transition[:, j])
+                    * Emission[j, Observation[t]])
+            backtrack_mat[t, j] = np.argmax(viterbi_mat[t-1, :]
+                                            * Transition[:, j])
 
     # found best path
     path = [0] * T
