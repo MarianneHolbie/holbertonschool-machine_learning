@@ -132,7 +132,8 @@ def baum_welch(Observations, Transition, Emission, Initial, iterations=1000):
 
     :return: converged Transition, Emission or None, None on failure
     """
-    if not isinstance(Observations, np.ndarray) or len(Observations.shape) != 1:
+    if (not isinstance(Observations, np.ndarray)
+            or len(Observations.shape) != 1):
         return None, None
     if not isinstance(Transition, np.ndarray) or len(Transition.shape) != 2 \
             or Transition.shape[0] != Transition.shape[1]:
@@ -147,39 +148,52 @@ def baum_welch(Observations, Transition, Emission, Initial, iterations=1000):
     T = Observations.shape[0]
     M, N = Emission.shape
 
+    Initial_new = np.zeros(Initial.shape)
+    Transition_new = np.zeros(Transition.shape)
+    Emission_new = np.zeros(Emission.shape)
+
+    # loop of Baum-Welch algo
     for idx in range(iterations):
 
-        P, b = backward(Observations, Emission, Transition, Initial)
+        # compute backward and forward proba and likelihood
+        P_b, b = backward(Observations, Emission, Transition, Initial)
         P_f, f = forward(Observations, Emission, Transition, Initial)
 
+        # x_i joint proba hidden state at time t + transition
         x_i = np.zeros((T, M, M))
+        # marginal proba of being particular state at each time step
         gamma = np.zeros((T, M))
 
+        # compute joint proba
         for t in range(T - 1):
             for i in range(M):
                 for j in range(M):
                     x_i[t, i, j] = (f[i, t] * Transition[i, j]
-                                    * Emission[j, Observations[t + 1]]
-                                    * b[j, t + 1]) / P
+                                    * Emission[j, Observations[t +1]]
+                                    * b[j, t + 1]) / P_f
 
+        # compute marginal proba : sum joint proba
         for t in range(T):
             gamma[t, :] = np.sum(x_i[t, :, :], axis=1)
 
-        Initial_new = np.zeros(Initial.shape)
-        for i in range(M):
-            Initial_new[i] = gamma[0, i]
+        # update initial state proba
+        Initial_new = gamma[0, :]
 
-        Transition_new = np.zeros(Transition.shape)
+        # update transition proba using joint proba and marginal proba
         for i in range(M):
             for j in range(M):
-                Transition_new[i, j] = (np.sum(x_i[:, i, j])
-                                        / np.sum(gamma[:, i]))
+                Transition_new[i, j] += (np.sum(x_i[:, i, j])
+                                         / np.sum(gamma[:, i]))
 
-        Emission_new = np.zeros(Emission.shape)
+        # update estimate emission proba
         for j in range(M):
             for k in range(N):
-                indices = Observations == k
-                Emission_new[j, k] = (np.sum(gamma[indices, j])
-                                      / np.sum(gamma[:, j]))
+                indices = np.where(Observations == k)[0]
+                Emission_new[j, k] += (np.sum(gamma[indices, j])
+                                       / np.sum(gamma[:, j]))
+
+    # normalize (for sum to 1)
+    Transition_new /= iterations
+    Emission_new /= iterations
 
     return Transition_new, Emission_new
