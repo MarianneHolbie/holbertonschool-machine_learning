@@ -169,7 +169,7 @@ def baum_welch(Observations, Transition, Emission, Initial, iterations=1000):
             for i in range(M):
                 for j in range(M):
                     x_i[t, i, j] = (f[i, t] * Transition[i, j]
-                                    * Emission[j, Observations[t +1]]
+                                    * Emission[j, Observations[t + 1]]
                                     * b[j, t + 1]) / P_f
 
         # compute marginal proba : sum joint proba
