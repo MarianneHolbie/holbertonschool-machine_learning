@@ -14,7 +14,7 @@ In this section, we will explore the theory behind HMMs, as well as practical ex
 
 # TASKS
 
-|| #  | Task                                                 | Description                                                                                        |
+| #  | Task                                                 | Description                                                                                        |
 |----|------------------------------------------------------|----------------------------------------------------------------------------------------------------|
 | 0  | [Markov Chain](./0-markov_chain.py) | Determines  the probability of a markov chain being in a particular state after a specified number of iterations |
 | 1  | [Regular Chains](./1-regular.py) | Determines the steady state probabilities of a regular markov chain |
