@@ -5,6 +5,7 @@
 """
 import numpy as np
 from scipy.stats import norm
+
 GP = __import__('2-gp').GaussianProcess
 
 
@@ -60,16 +61,16 @@ class BayesianOptimization:
             best_y = self.Y[best_idx]
 
             z = (best_y - y_pred - self.xsi) / y_std
-            ei = ((best_y - y_pred - self.xsi) * norm.cdf(z)
-                  + y_std * norm.pdf(z))
+            ei = (best_y - y_pred - self.xsi) * norm.cdf(z) + \
+                y_std * norm.pdf(z)
         # maximize objective function
         else:
             best_idx = np.argmax(self.gp.Y)
             best_y = self.Y[best_idx]
 
             z = (y_pred - best_y - self.xsi) / y_std
-            ei = ((y_pred - best_y - self.xsi) * norm.cdf(z)
-                  + y_std * norm.pdf(z))
+            ei = (y_pred - best_y - self.xsi) * norm.cdf(z) + \
+                y_std * norm.pdf(z)
 
         X_next = self.X_s[np.argmax(ei)]
 
