@@ -27,7 +27,7 @@ class GaussianProcess:
         self.Y = Y_init
         self.l = l
         self.sigma_f = sigma_f
-        self.K = self.kernel(self.X, self.Y)
+        self.K = self.kernel(X_init, X_init)
 
     def kernel(self, X1, X2):
         """
@@ -41,8 +41,8 @@ class GaussianProcess:
                 ndarray, shape(m,n)
         """
 
-        dist_mtx = (np.sum(X1 ** 2, 1).reshape(-1, 1) +
-                    np.sum(X2 ** 2, 1) - 2 * np.dot(X1, X2.T))
+        dist_mtx = np.sum(X1 ** 2, 1).reshape(-1, 1) + \
+            np.sum(X2 ** 2, 1) - 2 * np.dot(X1, X2.T)
         K = self.sigma_f ** 2 * np.exp(-0.5 / self.l ** 2 * dist_mtx)
 
         return K
