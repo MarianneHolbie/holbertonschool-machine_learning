@@ -95,3 +95,7 @@ Introduction to clustering (K-means, Hierarchical clustering, Gaussian Mixture M
 ### [hmm](unsupervised_learning/hmm)
 
 Hidden Markov Models
+
+### [hyperparameter_tuning](unsupervised_learning/hyperparameter_tuning)
+
+Hyperparameter tuning

@@ -14,3 +14,7 @@ Clustering is a type of unsupervised learning that groups data points together b
 ## [Hidden Markov Models](./hmm)
 
 Hidden Markov Models (HMMs) are a class of probabilistic graphical model that are used to model sequences of data. They are used in a wide range of applications, including speech recognition, bioinformatics, and finance.
+
+## [Hyperparameter tuning](./hyperparameter_tuning)
+
+Hyperparameter tuning is the process of finding the best hyperparameters for a machine learning model. Hyperparameters are parameters that are set before the learning process begins, and they can have a significant impact on the performance of the model. Hyperparameter tuning is an important step in the machine learning process, as it can help improve the performance of the model and reduce overfitting.
