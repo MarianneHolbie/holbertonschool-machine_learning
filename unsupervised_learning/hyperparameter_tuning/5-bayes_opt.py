@@ -100,7 +100,8 @@ class BayesianOptimization:
             self.gp.update(X_next, Y_next)
 
         # Get optimal point and value
-        best_idx = np.argmin(self.gp.Y) if self.minimize else np.argmax(self.gp.Y)
+        best_idx = np.argmin(self.gp.Y) if self.minimize \
+            else np.argmax(self.gp.Y)
         self.gp.X = self.gp.X[:-1, :]
         X_opt = self.gp.X[best_idx]
         Y_opt = self.gp.Y[best_idx]
