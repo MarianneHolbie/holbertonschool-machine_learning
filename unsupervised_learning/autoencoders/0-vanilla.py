@@ -21,7 +21,9 @@ def build_encoder(input_dims, hidden_layers, latent_dims):
                                        name="encoder_input")
     encoder_layer = encoder_input
     for nodes in hidden_layers:
-        encoder_layer = keras.layers.Dense(nodes, activation='relu')(encoder_layer)
+        encoder_layer = keras.layers.Dense(nodes,
+                                           activation='relu'
+                                           )(encoder_layer)
     encoder_output = keras.layers.Dense(latent_dims,
                                         activation='relu',
                                         name="encoder_latent")(encoder_layer)
