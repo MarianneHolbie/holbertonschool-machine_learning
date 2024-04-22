@@ -17,13 +17,18 @@ def build_encoder(input_dims, hidden_layers, latent_dims):
 
     :return: encoder model
     """
-    inputs = keras.layers.Input(shape=(input_dims,))
-    x = inputs
+    encoder_input = keras.layers.Input(shape=(input_dims,),
+                                       name="encoder_input")
+    encoder_layer = encoder_input
     for nodes in hidden_layers:
-        x = keras.layers.Dense(nodes, activation='relu')(x)
-    encoded = keras.layers.Dense(latent_dims, activation='relu')(x)
-    model = keras.Model(inputs=inputs, outputs=encoded)
-    return model
+        encoder_layer = keras.layers.Dense(nodes, activation='relu')(encoder_layer)
+    encoder_output = keras.layers.Dense(latent_dims,
+                                        activation='relu',
+                                        name="encoder_latent")(encoder_layer)
+    model_encoder = keras.Model(inputs=encoder_input,
+                                outputs=encoder_output,
+                                name="encoder")
+    return model_encoder
 
 
 def build_decoder(hidden_layers, latent_dims, output_dims):
@@ -39,15 +44,22 @@ def build_decoder(hidden_layers, latent_dims, output_dims):
     :return: decoder model
     """
     hidden_layers_decoder = list(reversed(hidden_layers))
-    inputs = keras.layers.Input(shape=(latent_dims,))
-    x = inputs
+    decoder_input = keras.layers.Input(shape=(latent_dims,),
+                                       name="decoder_input")
+    decoder_layer = decoder_input
 
     for nodes in hidden_layers_decoder:
-        x = keras.layers.Dense(nodes, activation='relu')(x)
-    decoded = keras.layers.Dense(output_dims, activation='sigmoid')(x)
-    model = keras.Model(inputs=inputs, outputs=decoded)
+        decoder_layer = keras.layers.Dense(nodes,
+                                           activation='relu'
+                                           )(decoder_layer)
+    decoder_output = keras.layers.Dense(output_dims,
+                                        activation='sigmoid'
+                                        )(decoder_layer)
+    model_decoder = keras.Model(inputs=decoder_input,
+                                outputs=decoder_output,
+                                name="decoder")
 
-    return model
+    return model_decoder
 
 
 def autoencoder(input_dims, hidden_layers, latent_dims):
@@ -79,11 +91,11 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
     model_encoder = build_encoder(input_dims, hidden_layers, latent_dims)
     model_decoder = build_decoder(hidden_layers, latent_dims, input_dims)
 
-    inputs = model_encoder.inputs
-    encoded_representation = model_encoder.outputs
+    auto_input = model_encoder.input
+    encoded_representation = model_encoder(auto_input)
     decoded_representation = model_decoder(encoded_representation)
 
-    autoencoder_model = keras.Model(inputs=inputs,
+    autoencoder_model = keras.Model(inputs=auto_input,
                                     outputs=decoded_representation)
 
     autoencoder_model.compile(loss='binary_crossentropy',
