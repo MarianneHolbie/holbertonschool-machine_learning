@@ -99,3 +99,7 @@ Hidden Markov Models
 ### [hyperparameter_tuning](unsupervised_learning/hyperparameter_tuning)
 
 Hyperparameter tuning
+
+### [autoencoders](unsupervised_learning/autoencoders)
+
+Autoencoders
