@@ -17,28 +17,35 @@ def build_encoder(input_dims, hidden_layers, latent_dims):
 
     :return: encoder model
     """
-    model = keras.Sequential()
+    inputs = keras.layers.Input(shape=(input_dims,))
+    x = inputs
     for nodes in hidden_layers:
-        model.add(keras.layers.Dense(nodes, activation='relu'))
-    model.add(keras.layers.Dense(latent_dims, activation='relu'))
+        x = keras.layers.Dense(nodes, activation='relu')(x)
+    encoded = keras.layers.Dense(latent_dims, activation='relu')(x)
+    model = keras.Model(inputs=inputs, outputs=encoded)
     return model
 
 
-def build_decoder(hidden_layers, output_dims):
+def build_decoder(hidden_layers, latent_dims, output_dims):
     """
         build decoder part for a Vanilla Autoencoder
 
     :param hidden_layers: list containing number of nodes for each hidden
         layer in the encoder (should be reversed for the decoder)
+    :param latent_dims: integer containing dimensions of the latent space
+        representation
     :param output_dims: integer containing dimensions output
 
     :return: decoder model
     """
     hidden_layers_decoder = list(reversed(hidden_layers))
-    model = keras.Sequential()
+    inputs = keras.layers.Input(shape=(latent_dims,))
+    x = inputs
+
     for nodes in hidden_layers_decoder:
-        model.add(keras.layers.Dense(nodes, activation='relu'))
-    model.add(keras.layers.Dense(output_dims, activation='sigmoid'))
+        x = keras.layers.Dense(nodes, activation='relu')(x)
+    decoded = keras.layers.Dense(output_dims, activation='sigmoid')(x)
+    model = keras.Model(inputs=inputs, outputs=decoded)
 
     return model
 
@@ -70,10 +77,10 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
         raise TypeError("hidden_layers should be a list")
 
     model_encoder = build_encoder(input_dims, hidden_layers, latent_dims)
-    model_decoder = build_decoder(hidden_layers, input_dims)
+    model_decoder = build_decoder(hidden_layers, latent_dims, input_dims)
 
-    inputs = keras.layers.Input(shape=(input_dims,))
-    encoded_representation = model_encoder(inputs)
+    inputs = model_encoder.inputs
+    encoded_representation = model_encoder.outputs
     decoded_representation = model_decoder(encoded_representation)
 
     autoencoder_model = keras.Model(inputs=inputs,
