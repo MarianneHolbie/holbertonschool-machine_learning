@@ -25,11 +25,11 @@ def build_encoder(input_dims, hidden_layers, latent_dims, lambtha):
     encoder_layer = encoder_input
     for nodes in hidden_layers:
         encoder_layer = keras.layers.Dense(nodes,
-                                           activation='relu',
-                                           activity_regularizer=regul,
+                                           activation='relu'
                                            )(encoder_layer)
     encoder_output = keras.layers.Dense(latent_dims,
                                         activation='relu',
+                                        activity_regularizer=regul,
                                         name="encoder_latent")(encoder_layer)
     model_encoder = keras.Model(inputs=encoder_input,
                                 outputs=encoder_output,
