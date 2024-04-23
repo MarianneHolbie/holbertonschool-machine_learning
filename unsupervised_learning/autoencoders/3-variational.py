@@ -6,7 +6,7 @@ import tensorflow.keras as keras
 import tensorflow as tf
 
 
-def sampling(args):
+def sampling(args, latent_dims):
     """
         sample new similar points from the latent space
     :param args: z_mean, z_log_sigma
@@ -17,11 +17,11 @@ def sampling(args):
     z_mean, z_log_sigma = args
     epsilon = keras.backend.random_normal(
         shape=(keras.backend.shape(z_mean)[0],
-               keras.backend.shape(z_mean)[1]),
+               latent_dims),
         mean=0.,
         stddev=0.1)
 
-    return z_mean + keras.backend.exp(z_log_sigma) * epsilon
+    return z_mean + keras.backend.exp(z_log_sigma / 2) * epsilon
 
 
 def build_encoder(input_dims, hidden_layers, latent_dims):
@@ -50,7 +50,7 @@ def build_encoder(input_dims, hidden_layers, latent_dims):
                                      name="log_variance"
                                      )(encoder_layer)
 
-    z = (keras.layers.Lambda(lambda x: sampling(x))
+    z = (keras.layers.Lambda(lambda x: sampling(x, latent_dims))
          ([z_mean, z_log_sigma]))
 
     model_encoder = keras.Model(inputs=encoder_input,
@@ -123,7 +123,16 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
                                     outputs=decoded_representation,
                                     name="vae_mlp")
 
-    autoencoder_model.compile(loss='binary_crossentropy',
-                              optimizer='adam')
+    # custom loss function : sum of reconstruction term, and KL divergence
+    # regularization term
+    reconstruction_loss = keras.losses.binary_crossentropy(auto_input,
+                                                           decoded_representation)
+    reconstruction_loss *= input_dims
+    kl_loss = 1 + z_log_sigma - keras.backend.square(z_mean) - keras.backend.exp(z_log_sigma)
+    kl_loss = keras.backend.sum(kl_loss, axis=-1)
+    kl_loss *= -0.5
+    vae_loss = keras.backend.mean(reconstruction_loss + kl_loss)
+    autoencoder_model.add_loss(vae_loss)
+    autoencoder_model.compile(optimizer='adam')
 
     return model_encoder, model_decoder, autoencoder_model
