@@ -52,10 +52,10 @@ def build_encoder(input_dims, hidden_layers, latent_dims):
                                      name="log_variance"
                                      )(encoder_layer)
 
-    z = sampling([z_mean, z_log_sigma])
+    z = keras.layers.Lambda(sampling)([z_mean, z_log_sigma])
 
     model_encoder = keras.Model(inputs=encoder_input,
-                                outputs=[z_mean, z_log_sigma, z],
+                                outputs=[z],
                                 name="encoder")
     return model_encoder, z_mean, z_log_sigma
 
