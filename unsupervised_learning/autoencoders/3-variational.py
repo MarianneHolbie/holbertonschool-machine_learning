@@ -6,7 +6,7 @@ import tensorflow.keras as keras
 import tensorflow as tf
 
 
-def sampling(args, latent_dims):
+def sampling(args):
     """
         sample new similar points from the latent space
 
@@ -52,8 +52,7 @@ def build_encoder(input_dims, hidden_layers, latent_dims):
                                      name="log_variance"
                                      )(encoder_layer)
 
-    z = (keras.layers.Lambda(lambda x: sampling(x, latent_dims))
-         ([z_mean, z_log_sigma]))
+    z = sampling([z_mean, z_log_sigma])
 
     model_encoder = keras.Model(inputs=encoder_input,
                                 outputs=[z_mean, z_log_sigma, z],
