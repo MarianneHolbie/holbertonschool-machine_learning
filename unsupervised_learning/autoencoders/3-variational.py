@@ -21,7 +21,7 @@ def sampling(args):
         mean=0.,
         stddev=0.1)
 
-    return z_mean + keras.backend.exp(0.5 * z_log_sigma) * epsilon
+    return z_mean + keras.backend.exp(z_log_sigma) * epsilon
 
 
 def build_encoder(input_dims, hidden_layers, latent_dims):
