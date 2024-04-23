@@ -125,10 +125,12 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
 
     # custom loss function : sum of reconstruction term, and KL divergence
     # regularization term
-    reconstruction_loss = keras.losses.binary_crossentropy(auto_input,
-                                                           decoded_representation)
+    reconstruction_loss = (
+        keras.losses.binary_crossentropy(auto_input,
+                                         decoded_representation))
     reconstruction_loss *= input_dims
-    kl_loss = 1 + z_log_sigma - keras.backend.square(z_mean) - keras.backend.exp(z_log_sigma)
+    kl_loss = (1 + z_log_sigma - keras.backend.square(z_mean)
+               - keras.backend.exp(z_log_sigma))
     kl_loss = keras.backend.sum(kl_loss, axis=-1)
     kl_loss *= -0.5
     vae_loss = keras.backend.mean(reconstruction_loss + kl_loss)
