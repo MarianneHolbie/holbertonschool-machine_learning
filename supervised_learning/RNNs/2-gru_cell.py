@@ -14,6 +14,13 @@ def softmax(x):
     return e_x / e_x.sum(axis=1, keepdims=True)
 
 
+def sigmoid(x):
+    """
+        compute sigmoid
+    """
+    return 1 / (1 + np.exp(-x))
+
+
 class GRUCell:
     """
         class represents a gated recurrent unit
@@ -55,15 +62,16 @@ class GRUCell:
         x_concat = np.concatenate((h_prev, x_t), axis=1)
 
         # update gate
-        z_t = np.tanh(x_concat @ self.Wz + self.bz)
+        z_t = sigmoid(x_concat @ self.Wz + self.bz)
 
         # reset gate
-        r_t = np.tanh(x_concat @ self.Wr + self.br)
+        r_t = sigmoid(x_concat @ self.Wr + self.br)
 
         # intermediate hidden state with tanh activation
-        h_intermediate = np.tanh(np.concatenate((r_t * h_prev, x_t), axis=1) @ self.Wh + self.bh)
+        h_intermediate = np.tanh(
+            np.concatenate((r_t * h_prev, x_t), axis=1) @ self.Wh + self.bh)
 
-        h_next = z_t * h_prev + (1 - z_t) * h_intermediate
+        h_next = z_t * h_intermediate + (1 - z_t) * h_prev
 
         # output with softmax activation
         y = softmax(h_next @ self.Wy + self.by)
