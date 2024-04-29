@@ -82,6 +82,10 @@ Object detection with YOLO algorithm
 
 Neural Style Transfer with Tensorflow and Keras
 
+### [RNNs](supervised_learning/RNNs)
+
+Recurrent Neural Networks : LSTM, GRU, forward/backward propagation, build with Tensorflow and Keras
+
 ## [Unsupervised Learning](unsupervised_learning)
 
 ### [dimensionality_reduction](unsupervised_learning/dimensionality_reduction)
