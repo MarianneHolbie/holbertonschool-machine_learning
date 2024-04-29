@@ -4,6 +4,7 @@
 """
 import numpy as np
 
+
 def softmax(x):
     """
         compute softmax activation
@@ -74,7 +75,7 @@ class LSTMCell:
 
         # new cell state
         input_gate = c_x * u_x
-        c_next = f_x * c_x + input_gate
+        c_next = f_x * c_prev + input_gate
 
         # output gate
         o_t = sigmoid(x_concat @ self.Wo + self.bo)
