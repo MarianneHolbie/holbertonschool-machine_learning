@@ -28,9 +28,9 @@ class GRUCell:
         :param o: dimensionality of the outputs
         """
         i_h_concat = i + h
-        self.Wh = np.random.normal(size=(i_h_concat, h))
         self.Wz = np.random.normal(size=(i_h_concat, h))
         self.Wr = np.random.normal(size=(i_h_concat, h))
+        self.Wh = np.random.normal(size=(i_h_concat, h))
         self.Wy = np.random.normal(size=(h, o))
         self.bh = np.zeros(shape=(1, h))
         self.bz = np.zeros(shape=(1, h))
