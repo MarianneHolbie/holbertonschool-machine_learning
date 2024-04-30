@@ -37,7 +37,7 @@ class BidirectionalCell:
         i_h_concat = i + h
         self.Whf = np.random.normal(size=(i_h_concat, h))
         self.Whb = np.random.normal(size=(i_h_concat, h))
-        self.Wy = np.random.normal(size=(h, o))
+        self.Wy = np.random.normal(size=(h * 2, o))
         self.bhf = np.zeros(shape=(1, h))
         self.bhb = np.zeros(shape=(1, h))
         self.by = np.zeros(shape=(1, o))
