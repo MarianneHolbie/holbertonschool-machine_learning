@@ -6,7 +6,7 @@ import os
 import pandas as pd
 import numpy as np
 import tensorflow.keras.preprocessing
-from sklearn.preprocessing import MinMaxScaler
+import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense, Dropout, GRU
@@ -70,8 +70,8 @@ class WindowGenerator():
     def make_dataset(self, data):
         """
             Make dataset with frame 24h
-        :param X: X dataset
-        :param y: y corresponding dataset
+        :param data: dataset
+
         :return: dataframe create for tensorflow
         """
         df_tf = tensorflow.keras.preprocessing.timeseries_dataset_from_array(data=data,
@@ -104,20 +104,6 @@ class WindowGenerator():
     def test(self):
         return self.make_dataset(self.test_df)
 
-    @property
-    def example(self):
-        """
-        Get and cache an example batch of `inputs, labels` for plotting
-        """
-        result = getattr(self, '_example', None)
-
-        if result is None:
-            # No example batch was found, so get one from the `.train` dataset
-            result = next(iter(self.train))
-            # And cache it for next time
-            self._example = result
-        return result
-
 
 def normalize_data(df_train, df_val, df_test):
     """
@@ -127,12 +113,12 @@ def normalize_data(df_train, df_val, df_test):
     :param df_test: data to normalize
     :return: normalized data
     """
-    train_mean = train_df.mean(axis=0)
-    train_std = train_df.std(axis=0)
+    train_mean = df_train.mean(axis=0)
+    train_std = df_train.std(axis=0)
 
     df_train_norm = (train_df - train_mean) / train_std
-    df_val_norm = (val_df - train_mean) / train_std
-    df_test_norm = (test_df - train_mean) / train_std
+    df_val_norm = (df_val - train_mean) / train_std
+    df_test_norm = (df_test - train_mean) / train_std
     return df_train_norm, df_val_norm, df_test_norm
 
 
@@ -142,12 +128,15 @@ def split_data(df):
             * 70 % in training set
             * 20 % in validation set
             * 10 % in testing set
-        and split in data and labels
 
     :param df: dataframe to split
-    :return: X_train, y_train, X_val, y_val, X_test, y_test
+    :return: train_data, val_data, test_data
     """
-    n = len(df)
+    # log differential
+    log_df = df.apply(lambda x: np.log(x) - np.log(x.shift(1)), axis=0)
+    log_df = log_df.dropna()
+
+    n = len(log_df)
     train_data = df[:int(n * 0.7)]
     val_data = df[int(n * 0.7): int(n * 0.9)]
     test_data = df[int(n * 0.9):]
@@ -155,29 +144,41 @@ def split_data(df):
     return train_data, val_data, test_data
 
 
-def forecasting(train_df, val_df, test_df):
+def plot_eval_train(history):
     """
-        Forecasting analysis of Bitcoins
-    :param train_df: train set compatible to TF
-    :param val_df: validation set compatible to TF
-    :param test_df: test set compatible to TF
+        Plot curv
+    :param: history: history from model training
 
     """
-    pass
+    plt.figure(figsize=(12, 6))
+    plt.plot(history.history['loss'], label='Training Loss')
+    plt.plot(history.history['val_loss'], label='Validation Loss')
+    plt.plot(history.history['mae'], label='Training MAE')
+    plt.plot(history.history['val_mae'], label='Validation MAE')
+    plt.title('LSTM Model Performance')
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss / MAE')
+    plt.legend()
+    plt.show()
 
 
-def compile_fit(model, window, patience=2):
+def compile_fit(model, window, patience=5, epochs=200, batch_size=32):
     early_stopping = EarlyStopping(monitor='val_loss',
                                    patience=patience,
-                                   mode='min')
+                                   mode='min',
+                                   restore_best_weights=True
+                                   )
 
     model.compile(loss=tf.losses.MeanSquaredError(),
                   optimizer=tf.optimizers.Adam(),
                   metrics=['mae'])
 
-    history = model.fit(window.train, epochs=200,
+    history = model.fit(window.train, epochs=epochs,
                         validation_data=window.val,
-                        callbacks=[early_stopping])
+                        callbacks=[early_stopping],
+                        batch_size=batch_size,
+                        verbose=1)
+
     print(model.summary())
 
     return history
@@ -203,8 +204,7 @@ if __name__ == "__main__":
 
     # model
     LSTM_model = Sequential([
-        LSTM(16,
-             return_sequences=True),
+        LSTM(16, return_sequences=True),
         Dropout(0.5),
         LSTM(16),
         Dropout(0.2),
@@ -220,12 +220,33 @@ if __name__ == "__main__":
         Dense(1)
     ])
 
-    history = compile_fit(LSTM_model, window)
+    history1 = compile_fit(LSTM_model, window)
+    LSTM_model.save('LSTM_model.h5')
+    history2 = compile_fit(GRU_model, window)
+    GRU_model.save('GRU_model.h5')
 
     # Performance log
     val_performance = {}
     performance = {}
 
-    # Evaluate LSTM with wide_window
-    val_performance['LSTM'] = LSTM_model.evaluate(window.val)
+    # Evaluate model on validation dataset
+    val_performance['LSTM'] = LSTM_model.evaluate(window.val, verbose=0)
+    val_performance['GRU'] = GRU_model.evaluate(window.val, verbose=0)
+
+    # Evaluate model on test dataset
     performance['LSTM'] = LSTM_model.evaluate(window.test, verbose=0)
+    performance['GRU'] = GRU_model.evaluate(window.test, verbose=0)
+
+    # Print results
+    print("Results on validation set :")
+    print(f"LSTM : {val_performance['LSTM']}")
+    print(f"GRU : {val_performance['GRU']}")
+
+    print("\nResults on test set :")
+    print(f"LSTM : {performance['LSTM']}")
+    print(f"GRU : {performance['GRU']}")
+
+    print("Plot for LSTM model :")
+    plot_eval_train(history1)
+    print("Plot for GRU model :")
+    plot_eval_train(history2)

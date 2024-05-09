@@ -106,14 +106,11 @@ def preprocess_data(path_file1, path_file2):
     # filter data after 2017
     combined_df2017 = combined_df[combined_df.index >= pd.Timestamp(2017, 1, 1)]
 
-    print("before", combined_df2017.isna().sum())
     # fix missing value for Open, high, low close column : continuous timeseries
     combined_df2017['Open'] = combined_df2017['Open'].fillna(method='ffill')
     combined_df2017['High'] = combined_df2017['High'].fillna(method='ffill')
     combined_df2017['Low'] = combined_df2017['Low'].fillna(method='ffill')
     combined_df2017['Close'] = combined_df2017['Close'].fillna(method='ffill')
-
-    print("after",combined_df2017.isna().sum())
 
     # save dataset
     combined_df2017.to_csv('preprocess_data.csv', index=False)
