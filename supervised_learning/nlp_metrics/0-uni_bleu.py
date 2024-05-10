@@ -34,9 +34,9 @@ def uni_bleu(references, sentence):
         BP = np.exp(1 - closest_ref_len / len_sentence)
 
     # count words in each reference sentence
-    ref_counts = []
+    ref_counts = Counter()
     for ref in references:
-        ref_counts.append(Counter(ref))
+        ref_counts.update(ref)
 
     modified_precision = sum(min(ref_counts[word], sentence_counts[word]) for word in sentence_counts) / len_sentence
 
