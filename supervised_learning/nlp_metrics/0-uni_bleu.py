@@ -25,7 +25,8 @@ def uni_bleu(references, sentence):
     sentence_counts = Counter(sentence)
 
     # most close length
-    closest_ref_len = min((abs(len(ref) - len_sentence), len(ref)) for ref in references)[1]
+    closest_ref_len = min((abs(len(ref) - len_sentence), len(ref))
+                          for ref in references)[1]
 
     # calculate BP:
     if len_sentence > closest_ref_len:
@@ -38,7 +39,8 @@ def uni_bleu(references, sentence):
     for ref in references:
         ref_counts.update(ref)
 
-    modified_precision = sum(min(ref_counts[word], sentence_counts[word]) for word in sentence_counts) / len_sentence
+    modified_precision = sum(min(ref_counts[word], sentence_counts[word])
+                             for word in sentence_counts) / len_sentence
 
     # calculate bleu unigram score
     bleu_score = BP * modified_precision
