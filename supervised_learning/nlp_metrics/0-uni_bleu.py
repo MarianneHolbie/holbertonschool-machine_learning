@@ -48,6 +48,6 @@ def uni_bleu(references, sentence):
         precision += max_match / len_sentence
 
     # calculate bleu unigram score
-    bleu_score = BP * precision
+    bleu_score = BP * np.exp(np.log(precision))
 
     return bleu_score
