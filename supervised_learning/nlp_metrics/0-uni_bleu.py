@@ -34,11 +34,9 @@ def uni_bleu(references, sentence):
     ref_counts = []
     for ref in references:
         ref_counts.append(Counter(ref))
-    print(ref_counts)
 
     # count word in sentence
     sentence_counts = Counter(sentence)
-    print(sentence_counts)
 
     # calculate precision
     precision = 0
