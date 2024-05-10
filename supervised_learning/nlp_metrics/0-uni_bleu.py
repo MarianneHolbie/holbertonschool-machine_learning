@@ -22,17 +22,13 @@ def uni_bleu(references, sentence):
     """
 
     len_ref = min(len(ref) for ref in references)
-    print(len_ref)
     len_sentence = len(sentence)
-    print(len_sentence)
 
     # calculate BP:
     if len_sentence > len_ref:
         BP = 1
     else:
         BP = np.exp(1 - len_ref / len_sentence)
-
-    print("BP:", BP)
 
     # count words in each reference sentence
     ref_counts = []
