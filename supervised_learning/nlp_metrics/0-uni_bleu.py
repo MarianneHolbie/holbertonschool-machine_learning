@@ -25,7 +25,7 @@ def uni_bleu(references, sentence):
     len_sentence = len(sentence)
 
     # calculate BP:
-    if len_sentence > len_ref:
+    if len_sentence >= len_ref:
         BP = 1
     else:
         BP = np.exp(1 - len_ref / len_sentence)
