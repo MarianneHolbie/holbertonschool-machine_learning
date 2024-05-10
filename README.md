@@ -86,6 +86,15 @@ Neural Style Transfer with Tensorflow and Keras
 
 Recurrent Neural Networks : LSTM, GRU, forward/backward propagation, build with Tensorflow and Keras
 
+### [time_series](supervised_learning/time_series)
+
+Time Series Forecasting Bitcoins with LSTM
+
+### [nlp_metrics](supervised_learning/nlp_metrics)
+
+Natural Language Processing Metrics : BLEU, ROUGE scores, ...
+
+
 ## [Unsupervised Learning](unsupervised_learning)
 
 ### [dimensionality_reduction](unsupervised_learning/dimensionality_reduction)
