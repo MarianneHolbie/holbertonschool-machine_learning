@@ -21,33 +21,26 @@ def uni_bleu(references, sentence):
     :return: unigram BLEU score
     """
 
-    len_ref = min(len(ref) for ref in references)
     len_sentence = len(sentence)
+    sentence_counts = Counter(sentence)
+
+    # most close length
+    closest_ref_len = min((abs(len(ref) - len_sentence), len(ref)) for ref in references)[1]
 
     # calculate BP:
-    if len_sentence >= len_ref:
+    if len_sentence > closest_ref_len:
         BP = 1
     else:
-        BP = np.exp(1 - len_ref / len_sentence)
+        BP = np.exp(1 - closest_ref_len / len_sentence)
 
     # count words in each reference sentence
     ref_counts = []
     for ref in references:
         ref_counts.append(Counter(ref))
 
-    # count word in sentence
-    sentence_counts = Counter(sentence)
-
-    # calculate precision
-    precision = 0
-    for word in sentence:
-        max_match = 0
-        for counter in ref_counts:
-            max_match = max(max_match, counter[word])
-
-        precision += max_match / len_sentence
+    modified_precision = sum(min(ref_counts[word], sentence_counts[word]) for word in sentence_counts) / len_sentence
 
     # calculate bleu unigram score
-    bleu_score = BP * np.exp(np.log(precision))
+    bleu_score = BP * modified_precision
 
     return bleu_score
