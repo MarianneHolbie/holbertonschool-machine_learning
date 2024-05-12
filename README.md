@@ -94,6 +94,9 @@ Time Series Forecasting Bitcoins with LSTM
 
 Natural Language Processing Metrics : BLEU, ROUGE scores, ...
 
+### [word_embeddings](supervised_learning/word_embeddings)
+
+Natural Language Processing - Word Embeddings
 
 ## [Unsupervised Learning](unsupervised_learning)
 
