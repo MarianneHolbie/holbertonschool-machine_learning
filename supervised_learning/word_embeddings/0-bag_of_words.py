@@ -3,8 +3,7 @@
     Bag Of Words
 """
 import numpy as np
-from gensim import corpora
-from gensim.utils import simple_preprocess
+import re
 
 
 def bag_of_words(sentences, vocab=None):
@@ -24,24 +23,23 @@ def bag_of_words(sentences, vocab=None):
     if not isinstance(sentences, list):
         raise TypeError("sentences should be a list.")
 
-    # Creation list of features
-    sentences_tokenized = [simple_preprocess(sentence) for sentence in sentences]
-    dict_word = corpora.Dictionary(sentences_tokenized)
+    # extract features : list of words
+    list_words = []
+    for sentence in sentences:
+        words = re.findall(r'\w+', sentence.lower())
+        list_words.extend(words)
 
     if vocab is None:
-        list_word = []
-        for k, _ in dict_word.token2id.items():
-            list_word.append(k)
-        features = sorted(list_word)
-    else:
-        features = vocab
+        vocab = sorted(set(list_words))
 
     # construct incorporation matrix
-    embeddings = np.zeros((len(sentences_tokenized), len(features)), dtype=int)
+    embeddings = np.zeros((len(sentences), len(vocab)), dtype=int)
+    features = vocab
 
-    for i, sentence in enumerate(sentences_tokenized):
-        for j, word in enumerate(features):
-            if word in sentence:
-                embeddings[i, j] = 1
+    for i, sentence in enumerate(sentences):
+        words = re.findall(r'\w+', sentence.lower())
+        for word in words:
+            if word in vocab:
+                embeddings[i, vocab.index(word)] += 1
 
     return embeddings, features
