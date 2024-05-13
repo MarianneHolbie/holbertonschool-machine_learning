@@ -2,7 +2,9 @@
 """
     Bag Of Words
 """
-from sklearn.feature_extraction.text import CountVectorizer
+import numpy as np
+from gensim import corpora
+from gensim.utils import simple_preprocess
 
 
 def bag_of_words(sentences, vocab=None):
@@ -22,13 +24,24 @@ def bag_of_words(sentences, vocab=None):
     if not isinstance(sentences, list):
         raise TypeError("sentences should be a list.")
 
-    vectoriz = CountVectorizer(vocabulary=vocab)
-    bow = vectoriz.fit_transform(sentences)
+    # Creation list of features
+    sentences_tokenized = [simple_preprocess(sentence) for sentence in sentences]
+    dict_word = corpora.Dictionary(sentences_tokenized)
 
-    features = vectoriz.get_feature_names_out()
+    if vocab is None:
+        list_word = []
+        for k, _ in dict_word.token2id.items():
+            list_word.append(k)
+        features = sorted(list_word)
+    else:
+        features = vocab
 
-    return bow.toarray(), features
+    # construct incorporation matrix
+    embeddings = np.zeros((len(sentences_tokenized), len(features)), dtype=int)
 
+    for i, sentence in enumerate(sentences_tokenized):
+        for j, word in enumerate(features):
+            if word in sentence:
+                embeddings[i, j] = 1
 
-
-
+    return embeddings, features
