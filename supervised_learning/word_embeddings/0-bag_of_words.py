@@ -26,7 +26,7 @@ def bag_of_words(sentences, vocab=None):
     # extract features : list of words
     list_words = []
     for sentence in sentences:
-        words = re.findall(r'\w+', sentence.lower())
+        words = re.findall(r"[\w']+", sentence.lower())
         list_words.extend(words)
 
     if vocab is None:
@@ -37,7 +37,7 @@ def bag_of_words(sentences, vocab=None):
     features = vocab
 
     for i, sentence in enumerate(sentences):
-        words = re.findall(r'\w+', sentence.lower())
+        words = re.findall(r"[\w']+", sentence.lower())
         for word in words:
             if word in vocab:
                 embeddings[i, vocab.index(word)] += 1
