@@ -3,7 +3,6 @@
     Train Word2Vec
 """
 from gensim.models import Word2Vec
-from gensim import utils
 
 
 def word2vec_model(sentences, size=100, min_count=5, window=5,
@@ -25,6 +24,10 @@ def word2vec_model(sentences, size=100, min_count=5, window=5,
 
     :return: trained model
     """
+    if cbow is True:
+        sg = 0
+    else:
+        sg = 1
     model = Word2Vec(sentences=sentences,
                      size=size,
                      window=window,
