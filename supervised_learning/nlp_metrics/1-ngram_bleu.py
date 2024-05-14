@@ -70,11 +70,13 @@ def ngram_bleu(references, sentence, max_order):
     """
 
     len_sentence = len(sentence)
-    ngram_precisions = [modified_precision(references, sentence, order)
-                        for order in range(1, max_order + 1)]
+    ngram_precisions = []
+    for order in range(1, max_order + 1):
+        ngram_precisions.append(modified_precision(references, sentence, order))
 
     # BP
-    min_ref_length = min(len(ref) for ref in references)
+    ref_lengths = [len(ref) for ref in references]
+    min_ref_length = min(ref_lengths)
     if len_sentence >= min_ref_length:
         BP = 1
     else:
