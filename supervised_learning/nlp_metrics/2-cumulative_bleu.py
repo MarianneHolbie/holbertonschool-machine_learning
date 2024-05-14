@@ -72,7 +72,8 @@ def cumulative_bleu(references, sentence, n):
     len_sentence = len(sentence)
     ngram_precisions = []
     for order in range(1, n + 1):
-        ngram_precisions.append(modified_precision(references, sentence, order))
+        ngram_precisions.append(modified_precision(
+            references, sentence, order))
 
     # BP
     ref_lengths = [len(ref) for ref in references]
