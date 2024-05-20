@@ -26,7 +26,7 @@ class SelfAttention(tf.keras.layers.Layer):
         """
             call method
 
-        :param s_prev: tensor, shape(batch, units) previous decoder hidden state
+        :param s_prev: tensor, shape(batch, units) prev decoder hidden state
         :param hidden_states: tensor, shape(batch, input_seq_len, units),
             outputs of the encoder
 
