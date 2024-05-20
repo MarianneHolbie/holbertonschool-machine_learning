@@ -3,15 +3,13 @@
     Module to create Class RNN Encoder
 """
 import tensorflow as tf
-from tensorflow.keras.layers import Layer
-import tensorflow.keras as keras
-import numpy as np
 
 
-class RNNEncoder(Layer):
+class RNNEncoder(tf.keras.layers.Layer):
     """
         class to create RNN encoder for machine translation
     """
+
     def __init__(self, vocab, embedding, units, batch):
         """
             class constructor
@@ -21,18 +19,20 @@ class RNNEncoder(Layer):
         :param units: integer, number hidden units in RNN cell
         :param batch: integer, batch size
         """
-        if not all(isinstance(arg, int) for arg in [vocab, embedding, units, batch]):
-            raise TypeError(f"{arg} Should be an integer.")
+        invalid_args = [arg for arg in [vocab, embedding, units, batch] if not isinstance(arg, int)]
+        if invalid_args:
+            arg_str = ", ".join([f"{arg}" for arg in invalid_args])
+            raise TypeError(f"{arg_str} Should be an integer.")
 
         super(RNNEncoder, self).__init__()
         self.batch = batch
         self.units = units
-        self.embedding = keras.layers.Embedding(input_dim=vocab,
-                                                output_dim=embedding)
-        self.gru = keras.layers.GRU(units=units,
-                                    return_sequences=True,
-                                    return_state=True,
-                                    bias_initializer="glorot_uniform")
+        self.embedding = tf.keras.layers.Embedding(input_dim=vocab,
+                                                   output_dim=embedding)
+        self.gru = tf.keras.layers.GRU(units=units,
+                                       return_sequences=True,
+                                       return_state=True,
+                                       bias_initializer="glorot_uniform")
 
     def initialize_hidden_state(self):
         """
