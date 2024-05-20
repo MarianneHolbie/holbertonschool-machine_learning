@@ -27,15 +27,17 @@ class RNNDecoder(tf.keras.layers.Layer):
             raise TypeError(f"{arg_str} Should be an integer.")
 
         super().__init__()
+        self.units = units
+        self.batch = batch
         self.embedding = tf.keras.layers.Embedding(input_dim=vocab,
                                                    output_dim=embedding)
         self.gru = tf.keras.layers.GRU(
             units=units,
             return_sequences=True,
             return_state=True,
-            recurrent_initializer=tf.keras.initializers.GlorotUniform)
+            recurrent_initializer="glorot_uniform")
         self.F = tf.keras.layers.Dense(units=vocab)
-        self.attention = SelfAttention(units)
+        self.attention = SelfAttention(self.units)
 
     def call(self, x, s_prev, hidden_states):
         """
@@ -65,8 +67,8 @@ class RNNDecoder(tf.keras.layers.Layer):
         outputs, hidden_state = self.gru(context_concat)
 
         # supress dim=1
-        outputs = tf.squeeze(outputs, axis=1)
+        new_outputs = tf.squeeze(outputs, axis=1)
 
-        y = self.F(outputs)
+        y = self.F(new_outputs)
 
         return y, hidden_state
