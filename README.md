@@ -98,6 +98,10 @@ Natural Language Processing Metrics : BLEU, ROUGE scores, ...
 
 Natural Language Processing - Word Embeddings
 
+### [attention](supervised_learning/attention)
+
+Attention Mechanism
+
 ## [Unsupervised Learning](unsupervised_learning)
 
 ### [dimensionality_reduction](unsupervised_learning/dimensionality_reduction)
