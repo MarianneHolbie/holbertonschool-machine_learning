@@ -19,7 +19,8 @@ class RNNEncoder(tf.keras.layers.Layer):
         :param units: integer, number hidden units in RNN cell
         :param batch: integer, batch size
         """
-        invalid_args = [arg for arg in [vocab, embedding, units, batch] if not isinstance(arg, int)]
+        invalid_args = [arg for arg in [vocab, embedding, units, batch]
+                        if not isinstance(arg, int)]
         if invalid_args:
             arg_str = ", ".join([f"{arg}" for arg in invalid_args])
             raise TypeError(f"{arg_str} Should be an integer.")
@@ -48,8 +49,8 @@ class RNNEncoder(tf.keras.layers.Layer):
         """
             function to call initial
 
-        :param x: tensor, shape(batch, input_seq_len), input to the encoder layer
-            as word indices within the vocabulary
+        :param x: tensor, shape(batch, input_seq_len), input to the
+            encoder layer as word indices within the vocabulary
         :param initial: tensor, shape(batch, units), initial hidden state
 
         :return: outputs, hidden
