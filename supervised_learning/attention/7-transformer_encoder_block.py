@@ -29,8 +29,8 @@ class EncoderBlock(tf.keras.layers.Layer):
         self.dense_output = tf.keras.layers.Dense(units=dm)
         self.layernorm1 = tf.keras.layers.LayerNormalization(epsilon=1e-6)
         self.layernorm2 = tf.keras.layers.LayerNormalization(epsilon=1e-6)
-        self.dropout1 = tf.keras.layers.Dropout(rate=drop_rate)
-        self.dropout2 = tf.keras.layers.Dropout(rate=drop_rate)
+        self.dropout1 = tf.keras.layers.Dropout(drop_rate)
+        self.dropout2 = tf.keras.layers.Dropout(drop_rate)
 
     def call(self, x, training, mask=None):
         """
