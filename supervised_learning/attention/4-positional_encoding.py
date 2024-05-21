@@ -18,10 +18,9 @@ def positional_encoding(max_seq_len, dm):
     PE_vector = np.zeros(shape=(max_seq_len, dm))
 
     for pos in range(max_seq_len):
-        for i in range(dm):
-            if pos % 2 == 0:
-                PE_vector[pos, i] = np.sin(pos / (10000 ** (i / dm)))
-            else:
-                PE_vector[pos, i] = np.cos(pos / (10000 ** ((i - 1) / dm)))
+        for i in np.arange(int(dm / 2)):
+            denominator = 10000 ** (2 * i / dm)
+            PE_vector[pos, 2 * i] = np.sin(pos / denominator)
+            PE_vector[pos, 2 * i + 1] = np.cos(pos/denominator)
 
     return PE_vector
