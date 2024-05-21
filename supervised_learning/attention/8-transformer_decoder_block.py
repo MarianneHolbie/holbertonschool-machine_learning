@@ -11,10 +11,11 @@ class DecoderBlock(tf.keras.layers.Layer):
     """
         class Decoder Block
     """
+
     def __init__(self, dm, h, hidden, drop_rate=0.1):
         """
             class constructor
-            
+
         :param dm: dimensionality of the model
         :param h: number of heads
         :param hidden: number of hidden units in the fully connected layer
@@ -60,9 +61,10 @@ class DecoderBlock(tf.keras.layers.Layer):
         x = x + x_drop1
         x_norm1 = self.layernorm1(x)
 
-        Q = K = V = x_norm1
-        # call MultiHeadAttention n2 layer with Q, K, V and mask
-        output_att2, weights_att2 = self.mha2(Q, K, V, mask=padding_mask)
+        output_att2, weights_att2 = self.mha2(x_norm1,
+                                              encoder_output,
+                                              encoder_output,
+                                              mask=padding_mask)
         # dropout + Norm on residual connexion
         x_drop2 = self.dropout2(output_att2, training=training)
         # residual connexion
