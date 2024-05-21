@@ -3,12 +3,11 @@
     Class EncoderBlock
 """
 import tensorflow as tf
-import tensorflow.keras.layers
 
 MultiHeadAttention = __import__('6-multihead_attention').MultiHeadAttention
 
 
-class EncoderBlock(tensorflow.keras.layers.Layer):
+class EncoderBlock(tf.keras.layers.Layer):
     """
         class encoder block for a transformer
     """
