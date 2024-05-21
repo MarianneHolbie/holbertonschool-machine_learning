@@ -50,22 +50,21 @@ class EncoderBlock(tf.keras.layers.Layer):
         # call MultiHeadAttention layer with Q, K, V and mask
         output, weights_att = self.mha(Q, K, V, mask=mask)
 
+        # dropout + Norm on residual connexion
+        x_drop1 = self.dropout1(output, training=training)
         # residual connexion
-        x = x + output
-
-        # Layer normalization + dropout
+        x = x + x_drop1
         x_norm1 = self.layernorm1(x)
-        x_drop1 = self.dropout1(x_norm1, training=training)
 
         # Feed-forward network
-        x_hidden = self.dense_hidden(x_drop1)
-        x_output = self.dense_output(x_hidden)
+        x_hidden = self.dense_hidden(x_norm1)
 
+        # dropout + Norm on residual connexion
+        x_drop2 = self.dropout2(x_hidden, training=training)
         # residual connexion
-        x = x_output + x_drop1
-
-        # Layer normalization + dropout
+        x = x_hidden + x_drop2
         x_norm2 = self.layernorm2(x)
-        output = self.dropout2(x_norm2, training=training)
 
-        return output
+        x_output = self.dense_output(x_norm2)
+
+        return x_output
