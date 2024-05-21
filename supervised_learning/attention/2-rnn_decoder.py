@@ -67,7 +67,7 @@ class RNNDecoder(tf.keras.layers.Layer):
         outputs, hidden_state = self.gru(context_concat)
 
         # supress dim=1
-        new_outputs = tf.squeeze(outputs, axis=1)
+        new_outputs = tf.reshape(outputs,  (-1, outputs.shape[2]))
 
         y = self.F(new_outputs)
 
