@@ -70,7 +70,7 @@ class RNNDecoder(tf.keras.layers.Layer):
         # reshape in shape (32, 10, units + embedding_dim)
         x = tf.tile(x, [1, context.shape[1], 1])
         # shape output: (32, 10, units + units + embedding_dim)
-        context_concat = tf.concat([x, context], axis=-1)
+        context_concat = tf.concat([context, x], axis=-1)
 
         outputs, hidden_state = self.gru(context_concat)
 
