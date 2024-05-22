@@ -12,7 +12,8 @@ class Decoder(tf.keras.layers.Layer):
     """
         classe for decoder of transformer
     """
-    def __init__(self, N, dm, h, hidden, target_vocab, max_seq_len, drop_rate=0.1):
+    def __init__(self, N, dm, h, hidden, target_vocab,
+                 max_seq_len, drop_rate=0.1):
         """
             class init
         :param N: number of blocks in the encoder
@@ -58,6 +59,7 @@ class Decoder(tf.keras.layers.Layer):
         x = self.dropout(x, training=training)
 
         for block in self.blocks:
-            x = block(x, encoder_output, training, look_ahead_mask, padding_mask)
+            x = block(x, encoder_output, training,
+                      look_ahead_mask, padding_mask)
 
         return x
