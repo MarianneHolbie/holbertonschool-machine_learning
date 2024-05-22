@@ -35,16 +35,10 @@ class SelfAttention(tf.keras.layers.Layer):
             weights: tensor, shape(batch, input_seq_len, units),
                 attention weights
         """
+
         # calculate score with previous decoder hidden state
-        s_prev_score = self.W(s_prev)
-        s_prev_score = tf.expand_dims(s_prev_score, axis=1)
-
-        # calculate score with encoder hidden states
-        encoder_score = self.U(hidden_states)
-
-        # calculate attention scores
-        scores = tf.tanh(s_prev_score + encoder_score)
-        scores = self.V(scores)
+        s_prev = tf.expand_dims(s_prev, axis=1)
+        scores = self.V(tf.nn.tanh(self.W(s_prev) + self.U(hidden_states)))
 
         # attention weights
         att_weights = tf.nn.softmax(scores, axis=1)
