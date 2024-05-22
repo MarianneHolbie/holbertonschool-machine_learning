@@ -65,7 +65,6 @@ class RNNDecoder(tf.keras.layers.Layer):
         # context and weigh
         # output shape(32, 10, 256)
         context, att_weights = self.attention(x, hidden_states)
-        print(context.shape)
 
         # concatenate context with embedding vector
         # reshape in shape (32, 10, units + embedding_dim)
