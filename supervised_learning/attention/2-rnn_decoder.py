@@ -58,24 +58,20 @@ class RNNDecoder(tf.keras.layers.Layer):
         # embedding vector
         x = self.embedding(x)  # shape(32, 1, 128)
 
-        # concat embedding vector with previous hidden state
-        s_prev = tf.expand_dims(s_prev, 1)  # shape(32, 1, 256)
-        x = tf.concat([s_prev, x], axis=-1)  # shape(32, 1, 256 + 128)
-
-        # context and weigh
-        # output shape(32, 10, 256)
-        context, att_weights = self.attention(x, hidden_states)
+        # context and weigh : context.shape(32,256)
+        context, att_weights = self.attention(s_prev, hidden_states)
 
         # concatenate context with embedding vector
-        # reshape in shape (32, 10, units + embedding_dim)
-        x = tf.tile(x, [1, context.shape[1], 1])
-        # shape output: (32, 10, units + units + embedding_dim)
-        context_concat = tf.concat([x, context], axis=-1)
+        context = tf.expand_dims(context, axis=1)  # context.shape(32,1,256)
+        context_concat = tf.concat([context, x], axis=-1)
+        # context.shape(32,1,384)
 
         outputs, hidden_state = self.gru(context_concat)
+        # output.shape(32,1,256)
 
-        # supress dim=1
-        new_outputs = tf.reshape(outputs, (-1, outputs.shape[2]))
+        # new_output.shape(32,256)
+        new_outputs = tf.reshape(outputs,
+                                 shape=(outputs.shape[0], outputs.shape[2]))
 
         y = self.F(new_outputs)
 
