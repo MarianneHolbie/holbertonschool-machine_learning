@@ -102,6 +102,10 @@ Natural Language Processing - Word Embeddings
 
 Attention Mechanism
 
+### [transformer_apps](supervised_learning/transformer_apps)
+
+Machine learning translation for English to Portuguese using the transformer model and the Tensorflow Datasets ted_hrlr_translate/pt_to_en.
+
 ## [Unsupervised Learning](unsupervised_learning)
 
 ### [dimensionality_reduction](unsupervised_learning/dimensionality_reduction)
