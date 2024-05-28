@@ -35,6 +35,14 @@ class Dataset:
             num_parallel_calls=tf.data.AUTOTUNE)
 
         def filter_len(x, y, max_length=max_len):
+            """
+                filter out all examples that have either sentence
+                 with more than max_len tokens
+            :param x: seq 1
+            :param y: seq 2
+            :param max_length: maximum number of tokens allowed
+            :return: filter seq
+            """
             return tf.logical_and(tf.size(x) <= max_length,
                                   tf.size(y) <= max_length)
 
