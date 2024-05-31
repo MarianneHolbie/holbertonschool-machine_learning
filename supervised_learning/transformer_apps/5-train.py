@@ -125,6 +125,7 @@ def train_transformer(N, dm, h, hidden, max_len, batch_size, epochs):
         train_loss(loss)
         train_accuracy(tar, predictions)
 
+
     for epoch in range(epochs):
         train_loss.reset_states()
         train_accuracy.reset_states()

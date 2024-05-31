@@ -44,11 +44,13 @@ class Dataset:
         :return: tokenizer_pt, tokenizer_en
             respectively portuguese and english tokenizer
         """
+        # input encoder
         self.tokenizer_pt = (
             tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(
                 (pt.numpy() for pt, _ in data),
                 target_vocab_size=2 ** 15
             ))
+        # output encoder
         self.tokenizer_en = \
             (tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(
                 (en.numpy() for _, en in data),
