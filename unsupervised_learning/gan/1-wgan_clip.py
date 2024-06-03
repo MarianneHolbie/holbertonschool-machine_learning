@@ -37,7 +37,7 @@ class WGAN_clip(keras.Model):
         self.beta_2 = .9  # standard value, but can be changed if necessary
 
         # define the generator loss and optimizer:
-        self.generator.loss = lambda fake_output: tf.negative(tf.reduce_mean(fake_output))
+        self.generator.loss = lambda fake_output: -tf.reduce_mean(fake_output)
         self.generator.optimizer = (
             keras.optimizers.Adam(learning_rate=self.learning_rate,
                                   beta_1=self.beta_1,
@@ -46,7 +46,8 @@ class WGAN_clip(keras.Model):
                                loss=generator.loss)
 
         # define the discriminator loss and optimizer:
-        self.discriminator.loss = lambda real_output, fake_output: tf.reduce_mean(fake_output - real_output)
+        self.discriminator.loss = lambda real_output, fake_output: \
+            tf.reduce_mean(fake_output) - tf.reduce_mean(real_output)
         self.discriminator.optimizer = (
             keras.optimizers.Adam(learning_rate=self.learning_rate,
                                   beta_1=self.beta_1,
@@ -96,12 +97,12 @@ class WGAN_clip(keras.Model):
             # get a real sample
             real_sample = self.get_real_sample()
             # get a fake sample
-            fake_sample = self.get_fake_sample(training=True)
+            fake_sample = self.get_fake_sample()
             # compute the loss discr_loss of the discriminator on real
             # and fake samples
             with tf.GradientTape() as disc_tape:
-                disc_real_output = self.discriminator(real_sample, training=True)
-                disc_fake_output = self.discriminator(fake_sample, training=True)
+                disc_real_output = self.discriminator(real_sample)
+                disc_fake_output = self.discriminator(fake_sample)
 
                 discr_loss = self.discriminator.loss(real_output=disc_real_output,
                                                      fake_output=disc_fake_output)
@@ -125,7 +126,7 @@ class WGAN_clip(keras.Model):
         with tf.GradientTape() as gen_tape:
             # get a fake sample
             fake_sample = self.get_fake_sample(training=True)
-            gen_out = self.discriminator(fake_sample, training=True)
+            gen_out = self.discriminator(fake_sample, training=False)
 
             # compute the loss gen_loss of the generator on this sample
             gen_loss = self.generator.loss(gen_out)
