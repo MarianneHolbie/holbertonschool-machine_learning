@@ -37,7 +37,7 @@ class WGAN_clip(keras.Model):
         self.beta_2 = .9  # standard value, but can be changed if necessary
 
         # define the generator loss and optimizer:
-        self.generator.loss = lambda fake_output: -tf.reduce_mean(fake_output)
+        self.generator.loss = lambda fake_output: tf.negative(tf.reduce_mean(fake_output))
         self.generator.optimizer = (
             keras.optimizers.Adam(learning_rate=self.learning_rate,
                                   beta_1=self.beta_1,
