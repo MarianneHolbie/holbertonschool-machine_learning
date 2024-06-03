@@ -22,3 +22,7 @@ Hyperparameter tuning is the process of finding the best hyperparameters for a m
 ## [Autoencoders](./autoencoders)
 
 Autoencoders are a type of neural network that are used for unsupervised learning. They are used to learn a compressed representation of the input data, and are often used for tasks such as dimensionality reduction and data denoising. Autoencoders are used in a wide range of applications, including image recognition, speech recognition, and anomaly detection.
+
+## [Gan](./gan)
+
+Generative Adversarial Networks (GANs) are a type of neural network that are used for unsupervised learning. They are used to generate new data samples that are similar to a given data set. GANs are used in a wide range of applications, including image generation, text generation, and data augmentation.
