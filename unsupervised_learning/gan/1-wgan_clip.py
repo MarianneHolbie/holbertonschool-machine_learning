@@ -100,12 +100,13 @@ class WGAN_clip(keras.Model):
             fake_sample = self.get_fake_sample()
             # compute the loss discr_loss of the discriminator on real
             # and fake samples
-            with tf.GradientTape() as disc_tape:
+            with (tf.GradientTape() as disc_tape):
                 disc_real_output = self.discriminator(real_sample)
                 disc_fake_output = self.discriminator(fake_sample)
 
-                discr_loss = self.discriminator.loss(real_output=disc_real_output,
-                                                     fake_output=disc_fake_output)
+                discr_loss = self.discriminator.loss(
+                    real_output=disc_real_output,
+                    fake_output=disc_fake_output)
             # apply gradient descent once to the discriminator
             disc_gradients = (
                 disc_tape.gradient(discr_loss,
@@ -115,7 +116,7 @@ class WGAN_clip(keras.Model):
                 disc_gradients,
                 self.discriminator.trainable_variables))
 
-            # clip the weights (of the discriminator) between -1 and 1    # <----- new !
+            # clip the weights (of the discriminator) between -1 and 1
             for weight in self.discriminator.trainable_weights:
                 weight.assign(tf.clip_by_value(weight,
                                                clip_value_min=-1,
