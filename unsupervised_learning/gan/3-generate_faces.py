@@ -3,6 +3,10 @@ from tensorflow import keras
 
 
 def convolutional_GenDiscr():
+    """
+        function to create generator and discriminator for GAN model
+    :return:
+    """
 
     # generator model
     def conv_block_g(x,
@@ -12,6 +16,16 @@ def convolutional_GenDiscr():
                      up_size=(2, 2),
                      padding='same'
                      ):
+        """
+            function to create conv block in generator
+        :param x: input
+        :param filters: int, number of filter
+        :param kernel_size: int, kernel size
+        :param strides: tuple, dor stride
+        :param up_size: tuple, size for upSampling2D layer
+        :param padding: string, name of padding's type
+        :return:
+        """
         x = keras.layers.UpSampling2D(up_size)(x)
         x = keras.layers.Conv2D(filters,
                                 kernel_size,
@@ -23,6 +37,10 @@ def convolutional_GenDiscr():
         return x
 
     def get_generator():
+        """
+            function to construct the generator
+        :return: generator model
+        """
         inputs = keras.Input(shape=(16,))
         hidden = keras.layers.Dense(2048, activation='tanh')(inputs)
         x = keras.layers.Reshape((2, 2, 512))(hidden)
@@ -39,6 +57,16 @@ def convolutional_GenDiscr():
                      strides=(2, 2),
                      padding='same',
                      pool_size=(2, 2)):
+        """
+            conv block for discriminator
+        :param x: input
+        :param filters: int, number of filter
+        :param kernel_size: int, size of kernel
+        :param strides: typle, value for stride
+        :param padding: string, name of padding's type
+        :param pool_size: tuple, size for Maxpooling2D layer
+        :return:
+        """
         x = keras.layers.Conv2D(filters,
                                 kernel_size,
                                 (1, 1),
@@ -48,6 +76,10 @@ def convolutional_GenDiscr():
         return x
 
     def get_discriminator():
+        """
+            construct discriminator model
+        :return: discriminator model
+        """
         inputs = keras.Input(shape=(16, 16, 1))
         x = conv_block_d(inputs,
                          32,
