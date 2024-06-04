@@ -142,13 +142,14 @@ class WGAN_GP(keras.Model):
                 # compute the old loss discr_loss of the discriminator on real and fake samples
                 disc_real_output = self.discriminator(real_sample)
                 disc_fake_output = self.discriminator(fake_sample)
-                old_discr_loss = self.discriminator.loss(disc_real_output, disc_fake_output)
+                old_discr_loss = self.discriminator.loss(real_output=disc_real_output,
+                                                         fake_output=disc_fake_output)
 
                 # compute the gradient penalty gp
                 gp = self.gradient_penalty(interpoled_sample)
 
                 # compute the sum new_discr_loss = discr_loss + self.lambda_gp * gp
-                new_discr_loss = old_discr_loss + self.lambda_gp * gp
+                new_discr_loss = old_discr_loss + gp * self.lambda_gp
 
             # apply gradient descent with respect to new_discr_loss once to the discriminator
             disc_gradients = (
