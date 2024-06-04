@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+    Module to create GAN model
+"""
 from tensorflow import keras
 
 
