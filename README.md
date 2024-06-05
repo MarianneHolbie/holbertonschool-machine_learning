@@ -106,6 +106,10 @@ Attention Mechanism
 
 Machine learning translation for English to Portuguese using the transformer model and the Tensorflow Datasets ted_hrlr_translate/pt_to_en.
 
+### [qa_bot](supervised_learning/qa_bot)
+
+This is a simple question answering bot that uses a pre-trained BERT model to answer questions based on a given context. The bot is built using the Hugging Face Transformers library and is fine-tuned on the SQuAD dataset.
+
 ## [Unsupervised Learning](unsupervised_learning)
 
 ### [dimensionality_reduction](unsupervised_learning/dimensionality_reduction)
