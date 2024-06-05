@@ -172,4 +172,4 @@ class WGAN_GP(keras.Model):
         self.generator.optimizer.apply_gradients(zip(
             gen_gradients, self.generator.trainable_variables))
 
-        return {"discr_loss": old_discr_loss, "gen_loss": gen_loss, "gradient_penalty": gp}
+        return {"discr_loss": old_discr_loss, "gen_loss": gen_loss, "gp": gp}
