@@ -7,10 +7,12 @@ from tensorflow import keras
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 class WGAN_GP(keras.Model):
     """
         Wasserstein GANs class with gradient penalty
     """
+
     def __init__(self, generator, discriminator, latent_generator,
                  real_examples, batch_size=200, disc_iter=2,
                  learning_rate=.005, lambda_gp=10):
@@ -43,7 +45,7 @@ class WGAN_GP(keras.Model):
         self.dims = self.real_examples.shape
         self.len_dims = tf.size(self.dims)
         self.axis = tf.range(1, self.len_dims, delta=1, dtype='int32')
-        self.scal_shape = self.dims.as_list()  #
+        self.scal_shape = self.dims.as_list()
         self.scal_shape[0] = self.batch_size
         for i in range(1, self.len_dims):
             self.scal_shape[i] = 1
@@ -126,12 +128,9 @@ class WGAN_GP(keras.Model):
         :return: training model with loss for generator and discriminator
         following Wasserstein GAN with gradient penalty
         """
-        # for _ in range(self.disc_iter) :
         for _ in range(self.disc_iter):
-
             # compute the penalized loss for the discriminator in a tape watching the discriminator's weights
             with (tf.GradientTape() as disc_tape):
-
                 # get a real sample
                 real_sample = self.get_real_sample()
                 # get a fake sample
@@ -161,7 +160,6 @@ class WGAN_GP(keras.Model):
 
         # compute the loss for the generator in a tape watching the generator's weights
         with tf.GradientTape() as gen_tape:
-
             # get a fake sample
             fake_sample = self.get_fake_sample(training=True)
             gen_out = self.discriminator(fake_sample, training=False)
@@ -174,4 +172,4 @@ class WGAN_GP(keras.Model):
         self.generator.optimizer.apply_gradients(zip(
             gen_gradients, self.generator.trainable_variables))
 
-        return {"discr_loss": new_discr_loss, "gen_loss": gen_loss, "gradient_penalty": gp}
+        return {"discr_loss": old_discr_loss, "gen_loss": gen_loss, "gradient_penalty": gp}
