@@ -146,7 +146,8 @@ class WGAN_GP(keras.Model):
                 interpoled_sample = self.get_interpolated_sample(real_sample,
                                                                  fake_sample)
 
-                # compute the old loss discr_loss of the discriminator on real and fake samples
+                # compute the old loss discr_loss of the discriminator
+                # on real and fake samples
                 disc_real_output = self.discriminator(real_sample)
                 disc_fake_output = self.discriminator(fake_sample)
                 old_discr_loss = self.discriminator.loss(
