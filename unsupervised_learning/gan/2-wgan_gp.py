@@ -53,16 +53,22 @@ class WGAN_GP(keras.Model):
 
         # define the generator loss and optimizer:
         self.generator.loss = lambda fake_output: -tf.reduce_mean(fake_output)
-        self.generator.optimizer = keras.optimizers.Adam(learning_rate=self.learning_rate, beta_1=self.beta_1,
-                                                         beta_2=self.beta_2)
-        self.generator.compile(optimizer=generator.optimizer, loss=generator.loss)
+        self.generator.optimizer = (
+            keras.optimizers.Adam(learning_rate=self.learning_rate,
+                                  beta_1=self.beta_1,
+                                  beta_2=self.beta_2))
+        self.generator.compile(optimizer=generator.optimizer,
+                               loss=generator.loss)
 
         # define the discriminator loss and optimizer:
         self.discriminator.loss = lambda real_output, fake_output: \
             tf.reduce_mean(fake_output) - tf.reduce_mean(real_output)
-        self.discriminator.optimizer = keras.optimizers.Adam(learning_rate=self.learning_rate, beta_1=self.beta_1,
-                                                             beta_2=self.beta_2)
-        self.discriminator.compile(optimizer=discriminator.optimizer, loss=discriminator.loss)
+        self.discriminator.optimizer = (
+            keras.optimizers.Adam(learning_rate=self.learning_rate,
+                                  beta_1=self.beta_1,
+                                  beta_2=self.beta_2))
+        self.discriminator.compile(optimizer=discriminator.optimizer,
+                                   loss=discriminator.loss)
 
     # generator of real samples of size batch_size
     def get_fake_sample(self, size=None, training=False):
@@ -129,28 +135,32 @@ class WGAN_GP(keras.Model):
         following Wasserstein GAN with gradient penalty
         """
         for _ in range(self.disc_iter):
-            # compute the penalized loss for the discriminator in a tape watching the discriminator's weights
+            # compute the penalized loss for the discriminator
+            # in a tape watching the discriminator's weights
             with (tf.GradientTape() as disc_tape):
                 # get a real sample
                 real_sample = self.get_real_sample()
                 # get a fake sample
                 fake_sample = self.get_fake_sample()
-                # get the interpolated sample (between real and fake computed above)
-                interpoled_sample = self.get_interpolated_sample(real_sample, fake_sample)
+                # get the interpolated sample (between real and fake)
+                interpoled_sample = self.get_interpolated_sample(real_sample,
+                                                                 fake_sample)
 
                 # compute the old loss discr_loss of the discriminator on real and fake samples
                 disc_real_output = self.discriminator(real_sample)
                 disc_fake_output = self.discriminator(fake_sample)
-                old_discr_loss = self.discriminator.loss(real_output=disc_real_output,
-                                                         fake_output=disc_fake_output)
+                old_discr_loss = self.discriminator.loss(
+                    real_output=disc_real_output,
+                    fake_output=disc_fake_output)
 
                 # compute the gradient penalty gp
                 gp = self.gradient_penalty(interpoled_sample)
 
-                # compute the sum new_discr_loss = discr_loss + self.lambda_gp * gp
+                # compute the sum new =discr_loss+self.lambda_gp*gp
                 new_discr_loss = old_discr_loss + gp * self.lambda_gp
 
-            # apply gradient descent with respect to new_discr_loss once to the discriminator
+            # apply gradient descent with respect to new_discr_loss
+            # once to the discriminator
             disc_gradients = (
                 disc_tape.gradient(new_discr_loss,
                                    self.discriminator.trainable_variables))
@@ -158,7 +168,8 @@ class WGAN_GP(keras.Model):
                 disc_gradients,
                 self.discriminator.trainable_variables))
 
-        # compute the loss for the generator in a tape watching the generator's weights
+        # compute the loss for the generator in a tape watching
+        # the generator's weights
         with tf.GradientTape() as gen_tape:
             # get a fake sample
             fake_sample = self.get_fake_sample(training=True)
