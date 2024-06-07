@@ -1,11 +1,8 @@
-#!/usr/bin/env python3
-"""
-    Module semantic search
-"""
-import numpy as np
+#!/usr/bin/python3
+"""semantic search"""
 import os
-from sklearn.metrics.pairwise import cosine_similarity
-from sentence_transformers import SentenceTransformer
+from sentence_transformers import SentenceTransformer, SimilarityFunction
+import numpy as np
 
 
 def semantic_search(corpus_path, sentence):
@@ -17,29 +14,25 @@ def semantic_search(corpus_path, sentence):
 
     :return: reference text of the document most similar to sentence
     """
-    # load SBERT (sentence Transformer)
-    model = SentenceTransformer("all-MiniLM-L6-v2")
-
-    # tokenized inputs
-    s_embedding = model.encode(sentence)
-
-    document = []
+    corpus = []
     for filename in os.listdir(corpus_path):
-        # open each document
-        file_path = os.path.join(corpus_path, filename)
-        print("file_path: ", file_path)
-        if filename.endswith('.md'):
-            with open(file_path, 'r', encoding='utf-8') as f:
-                document.append(f.read())
+        if filename.endswith(".md"):
+            file_path = os.path.join(corpus_path, filename)
+            with open(file_path, 'r', encoding='utf-8') as md_file:
+                corpus.append(md_file.read() + '\n')
 
-    # encode each text
-    for doc in document:
-        doc_embedding = model.encode(doc)
+    # load sentence transformer model
+    model = SentenceTransformer("multi-qa-MiniLM-L6-cos-v1")
+    # set similarity native function to COSINE
+    model.similarity_fn_name = SimilarityFunction.COSINE
 
-    # calculate similarity
-    similarity = [cosine_similarity([s_embedding], [doc_embedding])]
-    # find best result and retrieve corresponding text
-    best_similarity = np.argmax(similarity)
-    best_doc = document[best_similarity]
+    # encode input
+    embeddings_sen = model.encode(sentence)
+
+    similarities = [model.similarity(embeddings_sen, model.encode(doc))
+                    for doc in corpus]
+
+    best_similarity_idx = np.argmax(similarities)
+    best_doc = corpus[best_similarity_idx]
 
     return best_doc
