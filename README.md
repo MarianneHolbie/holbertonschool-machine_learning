@@ -131,3 +131,9 @@ Hyperparameter tuning
 ### [autoencoders](unsupervised_learning/autoencoders)
 
 Autoencoders
+
+## [Reinforcement Learning](reinforcement_learning)
+
+### [q_learning](reinforcement_learning/q_learning)
+
+Q-learning
