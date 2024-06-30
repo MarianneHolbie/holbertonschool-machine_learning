@@ -137,3 +137,7 @@ Autoencoders
 ### [q_learning](reinforcement_learning/q_learning)
 
 Q-learning
+
+### [deep_q_learning](reinforcement_learning/deep_q_learning)
+
+Train and play script for Breakout Atari game
