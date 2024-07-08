@@ -38,7 +38,7 @@ def td_lambtha(env, V, policy, lambtha,
 
             # update eligibilities
             eligibility *= lambtha * gamma
-            eligibility[state] = 1
+            eligibility[state] += 1
 
             # Update value function
             V = V + alpha * delta * eligibility
