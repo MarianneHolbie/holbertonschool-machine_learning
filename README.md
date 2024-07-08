@@ -134,10 +134,13 @@ Autoencoders
 
 ## [Reinforcement Learning](reinforcement_learning)
 
-### [q_learning](reinforcement_learning/q_learning)
-
 Q-learning
 
-### [deep_q_learning](reinforcement_learning/deep_q_learning)
+### [q_learning](reinforcement_learning/q_learning)
 
+### [deep_q_learning](reinforcement_learning/deep_q_learning)
 Train and play script for Breakout Atari game
+
+### [temporal_difference](reinforcement_learning/temporal_difference)
+Montecarlo, SARSA, TD(0), TD(λ)
+
