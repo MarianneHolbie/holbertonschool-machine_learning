@@ -48,4 +48,4 @@ def td_lambtha(env, V, policy, lambtha,
 
             state = next_state
 
-        return V
+    return V
