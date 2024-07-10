@@ -35,12 +35,12 @@ def sarsa_lambtha(env, Q, lambtha, episodes=5000, max_steps=100,
     :return: Q, updated Q table
     """
     epsilon_init = epsilon
-    eligibility = np.zeros_like(Q)
 
     for ep in range(episodes):
         # start new episode
         state = env.reset()
         action = epsilon_greedy(state, Q, epsilon)
+        eligibility = np.zeros_like(Q)
 
         for step in range(max_steps):
             # determine action based on policy
@@ -56,7 +56,7 @@ def sarsa_lambtha(env, Q, lambtha, episodes=5000, max_steps=100,
             eligibility[state, action] += 1
 
             # Update value function
-            Q[state, action] += alpha * delta * eligibility[state, action]
+            Q += alpha * delta * eligibility
 
             if done:
                 break
