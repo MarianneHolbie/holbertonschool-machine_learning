@@ -52,8 +52,8 @@ def sarsa_lambtha(env, Q, lambtha, episodes=5000, max_steps=100,
                      - Q[state, action])
 
             # update eligibilities
-            eligibility *= lambtha * gamma
             eligibility[state, action] += 1
+            eligibility *= lambtha * gamma
 
             # Update value function
             Q += alpha * delta * eligibility
