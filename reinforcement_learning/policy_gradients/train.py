@@ -14,6 +14,7 @@ def train(env, nb_episodes, alpha=0.000045, gamma=0.98, show_result=False):
     :param nb_episodes: number of episodes used for training
     :param alpha: learning rate
     :param gamma: discount factor
+    :param show_result: render env every 1000 episodes computed
 
     :return: sum of all rewards during one episode loop
     """
