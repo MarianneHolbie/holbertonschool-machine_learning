@@ -144,3 +144,7 @@ Train and play script for Breakout Atari game
 ### [temporal_difference](reinforcement_learning/temporal_difference)
 Montecarlo, SARSA, TD(0), TD(λ)
 
+### [policy_gradients](reinforcement_learning/policy_gradients)
+Monte-Carlo Policy gradients
+
+
