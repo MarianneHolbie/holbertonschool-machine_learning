@@ -147,4 +147,8 @@ Montecarlo, SARSA, TD(0), TD(λ)
 ### [policy_gradients](reinforcement_learning/policy_gradients)
 Monte-Carlo Policy gradients
 
+## [pipeline](pipeline)
 
+### [pandas](pipeline/pandas)
+
+Pandas is a powerful data manipulation library for Python. It provides fast, flexible, and expressive data structures designed to make working with structured (tabular, multidimensional, potentially heterogeneous) and time series data both easy and intuitive.
