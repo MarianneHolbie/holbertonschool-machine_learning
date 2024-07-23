@@ -67,7 +67,8 @@ if __name__ == "__main__":
         exit(1)
 
     # get launchpad information
-    launchpad_name, launchpad_loc = get_launchpad_info(next_launch['launchpad'])
+    launchpad_name, launchpad_loc = (
+        get_launchpad_info(next_launch['launchpad']))
     if launchpad_name is None or launchpad_loc is None:
         print("Failed to retrieve launchpad information.")
         exit(1)
