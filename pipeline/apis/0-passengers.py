@@ -15,21 +15,21 @@ def availableShips(passengerCount):
             list of available ships
     """
     url = 'https://swapi-api.hbtn.io/api/starships/'
-
     r = requests.get(url).json()
 
     available_ships = []
 
+    # for all pages
     while r.get("next"):
         starship = r.get("results")
         for ship in starship:
             passenger = ship.get("passengers")
 
-            if passenger.isnumeric():
-                nbr_passg = int(passenger.replace(",", ""))
+            if passenger == "n/a" or passenger == "unknown":
+                continue
 
-                if nbr_passg >= passengerCount:
-                    available_ships.append(ship.get("name"))
+            if int(passenger.replace(",", "")) >= passengerCount:
+                available_ships.append(ship.get("name"))
 
         r = requests.get(r.get("next")).json()
 
