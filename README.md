@@ -152,3 +152,9 @@ Monte-Carlo Policy gradients
 ### [pandas](pipeline/pandas)
 
 Pandas is a powerful data manipulation library for Python. It provides fast, flexible, and expressive data structures designed to make working with structured (tabular, multidimensional, potentially heterogeneous) and time series data both easy and intuitive.
+
+### [apis](pipeline/apis)
+
+Data is key for the training a Machine Learning model.
+
+Injection of data is the first piece of the construction of a data lake. Let’s play with some APIs to retrieve and transform data.
