@@ -14,7 +14,7 @@ if __name__ == '__main__':
 
     url = sys.argv[1]
     # default headers
-    headers = {'Accept': 'application/vnd.github.v3+json'}
+    headers = {'Accept': 'application/vnd.github+json'}
 
     results = requests.get(url, headers=headers)
 
