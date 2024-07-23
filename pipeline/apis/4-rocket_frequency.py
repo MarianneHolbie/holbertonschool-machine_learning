@@ -1,47 +1,36 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
 How many by rocket?
 """
 import requests
-from collections import defaultdict
-
-
-def get_json(url):
-    """ request data from url, return json"""
-    try:
-        r = requests.get(url)
-        r.raise_for_status()
-        return r.json()
-    except requests.exceptions.RequestException as e:
-        print("Request failed: {}".format(e))
-        return None
 
 
 if __name__ == "__main__":
     # get all launches
-    url_launches = 'https://api.spacexdata.com/v4/launches'
-    launches = get_json(url_launches)
+    url = 'https://api.spacexdata.com/v4/launches'
+    launches = requests.get(url).json()
     if launches is None:
         exit(1)
 
-        # Get all rockets
-    rockets_url = 'https://api.spacexdata.com/v4/rockets'
-    rockets = get_json(rockets_url)
-    if rockets is None:
-        exit(1)
+    rocket_dict = {}
 
-    # Create a dictionary to map rocket IDs to rocket names
-    rocket_name_dict = {rocket['id']: rocket['name'] for rocket in rockets}
-
-    # Count launches per rocket
-    rocket_count = defaultdict(int)
+    # Get rockets for each launches
     for launch in launches:
         rocket_id = launch.get('rocket')
-        rocket_name = rocket_name_dict.get(rocket_id, 'Unknown')
-        rocket_count[rocket_name] += 1
+        rocket_url = 'https://api.spacexdata.com/v4/rockets/{}'.format(
+            rocket_id)
+
+        rocket_info = requests.get(rocket_url).json()
+        rocket_name = rocket_info.get('name')
+
+        # Count launches per rocket
+        if rocket_dict.get(rocket_name) is None:
+            rocket_dict[rocket_name] = 1
+            continue
+        rocket_dict[rocket_name] += 1
 
     # sort rockets by number of launches in descending order
-    sorted_rocket = sorted(rocket_count.items(),
+    sorted_rocket = sorted(rocket_dict.items(),
                            key=lambda kv: kv[1],
                            reverse=True)
 
