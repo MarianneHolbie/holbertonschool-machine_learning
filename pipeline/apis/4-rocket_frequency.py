@@ -5,7 +5,6 @@ How many by rocket?
 import requests
 
 
-
 if __name__ == "__main__":
     # get all launches
     url = 'https://api.spacexdata.com/v4/launches'
@@ -38,4 +37,3 @@ if __name__ == "__main__":
     # print number of launches per rocket
     for rocket, count in sorted_rocket:
         print("{}: {}".format(rocket, count))
-        
