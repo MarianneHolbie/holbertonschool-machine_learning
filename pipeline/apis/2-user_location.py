@@ -24,6 +24,7 @@ if __name__ == '__main__':
     elif results.status_code == 404:
         print("Not found")
 
+    # case Rate limit
     elif results.status_code == 403:
         rate_lim = int(results.headers['X-Ratelimit-Reset'])
         now = int(time.time())
