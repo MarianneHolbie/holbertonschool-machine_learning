@@ -24,7 +24,7 @@ BEGIN
         project_id,
         score)
         VALUES (
-            user_id (SELECT id FROM projects
+            user_id, (SELECT id FROM projects
                      WHERE name=project_name),
             score);
 
