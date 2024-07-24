@@ -21,7 +21,7 @@ BEGIN
     -- create corresponding corrections row
     INSERT INTO corrections (
         user_id,
-        project_id
+        project_id,
         score)
         VALUES (
             user_id (SELECT id FROM projects
