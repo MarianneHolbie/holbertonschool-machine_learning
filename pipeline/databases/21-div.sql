@@ -2,21 +2,16 @@
 DELIMITER $$
 
 CREATE FUNCTION SafeDiv(
-    IN a INT,
-    IN b INT)
+    a INT,
+    b INT)
     RETURNS FLOAT
     DETERMINISTIC
 
     BEGIN
-        IF b = 0
-            BEGIN
-                RETURN 0;
-            END
+        IF b = 0 THEN
+            RETURN 0;
         ELSE
-            BEGIN
-                RETURN a / b;
-            END
-        END IF;
+            RETURN a / b;
     END $$
 
 DELIMITER;
