@@ -3,16 +3,16 @@ DELIMITER $$
 
 -- create procedure with params
 CREATE PROCEDURE AddBonus(
-    user_id INT,
-    project_name VARCHAR(255),
-    score INT)
+    IN user_id INT,
+    IN project_name VARCHAR(255),
+    IN score INT)
 
 BEGIN
     -- creation or update projects
     IF NOT EXISTS (
         SELECT name
         FROM projects
-        WHERE name = project_name
+        WHERE name=project_name
         )
         THEN
         INSERT INTO projects(name)
@@ -25,9 +25,9 @@ BEGIN
         project_id
         score)
         VALUES (
-        user_id (SELECT id FROM projects
-                    WHERE name = project_name),
-        score);
+            user_id (SELECT id FROM projects
+                     WHERE name=project_name),
+            score);
 
 END $$
 DELIMITER;
