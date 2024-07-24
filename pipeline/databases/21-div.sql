@@ -1,4 +1,6 @@
 -- Function that divides (and return) two numbers
+DROP FUNCTION IF EXISTS SafeDiv;
+
 DELIMITER $$
 
 CREATE FUNCTION SafeDiv(
@@ -11,6 +13,7 @@ CREATE FUNCTION SafeDiv(
             RETURN 0;
         ELSE
             RETURN a / b;
+        END IF;
     END $$
 
 DELIMITER;
