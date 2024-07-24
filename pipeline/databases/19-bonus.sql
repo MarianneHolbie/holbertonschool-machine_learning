@@ -13,10 +13,9 @@ BEGIN
         SELECT name
         FROM projects
         WHERE name=project_name
-        )
-        THEN
-        INSERT INTO projects(name)
-        VALUES (project_name);
+        ) THEN
+            INSERT INTO projects(name)
+            VALUES (project_name);
     END IF;
 
     -- create corresponding corrections row
