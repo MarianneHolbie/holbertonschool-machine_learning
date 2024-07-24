@@ -1,9 +1,9 @@
 // add new attribute to a document in collection school
-db.school.updateOne(
+db.school.update(
     {name: 'Holberton school'},
-    [
-        { $set: {
-            'address': '972 Mission street'
-        } }
-    ]
+    { $set: {
+        'address': '972 Mission street'
+    } },
+    {upsert: false,
+    multi: true}
     )
