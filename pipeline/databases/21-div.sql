@@ -8,10 +8,14 @@ CREATE FUNCTION SafeDiv(
     DETERMINISTIC
 
     BEGIN
-        IF b = 0 THEN
-            RETURN 0;
+        IF b = 0
+            BEGIN
+                RETURN 0;
+            END
         ELSE
-            RETURN a / b;
+            BEGIN
+                RETURN a / b;
+            END
         END IF;
     END $$
 
