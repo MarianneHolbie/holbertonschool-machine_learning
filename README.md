@@ -162,3 +162,7 @@ Injection of data is the first piece of the construction of a data lake. Let’s
 ## [databases](pipeline/databases)
 
 Project with MySQL and MongoDB
+
+## [data_augmentation](pipeline/data_augmentation)
+
+Data augmentation is a technique used to artificially increase the size of a dataset by applying transformations to the original data. This technique is commonly used in computer vision tasks, where the transformations can be applied to images. The idea behind data augmentation is to increase the diversity of the dataset, which can help improve the performance of machine learning models.
